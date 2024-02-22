@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
+    {% load static %} <!--cada plantilla que utilice tags estáticos debe de tener esta linea en la parte superior-->
+
 <head>
     <meta charset="UTF-8">
     <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
@@ -75,8 +77,9 @@
 <body>
     <div class="login-container">
         <div class="logo">
-            <!-- Suponiendo que tienes una imagen logo.png en la misma carpeta que tu HTML -->
-            <img src="logo.png" alt="ZENSORIAL SPA & WELLNESS BAR Logo">
+            <!-- Configuracion correcta para jalar la imagen de la carpeta static -->
+            <link rel="stylesheet" type="text/css" href="{% static 'logologin.png' %}" alt="Zensorial logo">
+
         </div>
         <h2>BIENVENIDO</h2>
         <form action="/login" method="post"> <!-- Actualizar con la URL correcta -->
