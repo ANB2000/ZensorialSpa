@@ -6,88 +6,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
     <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
-    
-    <style>
-        body {
-            font-family: "Julius Sans One", sans-serif;
-            background-color: #ffff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            width: 300px;
-            margin-top: 30px;
-            
-            
-        }
-
-        .logo {
-    
-            background-color: #e6e6e6;
-            width: 100%;
-            overflow: hidden;
-            height: 450px; 
-            border-radius: 10px 400px 400px 10px;
-            background-size: cover;
-        }
-
-        .logo img {
-           
-            width: fit-content;
-            
-        }
-
-        h2 {
-            color: #333;
-            text-align: center;
-            font-size: 40px;
-
-        }
-
-        .form-input {
-            margin-bottom: 15px;
-        }
-
-        .form-input input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            box-sizing: border-box; /* Include padding in width */
-        }
-
-        .form-input input:focus {
-            outline: none;
-            border-color: #6e8f72;
-        }
-
-        .login-button {
-            width: 100%;
-            padding: 10px;
-            
-            background-color: #547E74;
-            color: white;
-            cursor: pointer;
-            border-radius: 20px;
-            font-size: 16px;
-            font-family: "Julius Sans One", sans-serif;
-        }
-
-        .login-button:hover {
-            background-color: #5d7f64;
-        }
-    </style>
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styleslogin.css' %}">
 </head>
+
 <body>
 
     <div class="logo">
@@ -97,8 +19,9 @@
 
     <div class="login-container">  
         <h2>BIENVENIDO</h2>
-        <br>
-        <form action="/login" method="post"> <!-- Actualizar con la URL correcta -->
+        
+        <form action="{% url 'home' %}" method="post"> <!-- Actualizar con la URL correcta -->
+            {% csrf_token %}
             <h4>Usuario</h4>
             <div class="form-input">
                 <input type="text" name="username">
@@ -107,8 +30,7 @@
             <div class="form-input">
                 <input type="password" name="password">
             </div>
-            <br>
-            <br>
+
             <button type="submit" class="login-button">INICIAR SESIÓN</button>
         </form>
     </div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Zensorial SPA & Wellness Bar</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Asegúrate de tener un archivo styles.css en tu carpeta de archivos estáticos -->
+    
+</head>
+<body>
+    <nav class="nav">
+        <!-- Este es tu menú desplegable, puedes usar <ul> para la estructura -->
+        
+        <div id="menuToggle">
+            <!-- Un checkbox falso usado como click receiver para el menú desplegable -->
+            <input type="checkbox" />
+            
+            <!-- Algún tipo de ícono de hamburguesa para menú móvil -->
+            <span></span>
+            <span></span>
+            <span></span>
+            
+            <!-- Aquí irían los enlaces del menú -->
+            <ul id="menu">
+                <a href="#"><li>FICHA CLÍNICA</li></a>
+                <a href="#"><li>CITAS</li></a>
+                <a href="#"><li>EMPLEADOS</li></a>
+                <a href="#"><li>CERRAR SESIÓN</li></a>
+            </ul>
+        </div>
+        <div class="titulo">
+            MENÚ
+        </div>
+        
+    </nav>
+
+    <div class="content">
+        <!-- Esto es donde tu contenido cambiará según la vista -->
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+</html>
