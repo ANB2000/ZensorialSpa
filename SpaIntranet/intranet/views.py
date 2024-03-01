@@ -12,10 +12,10 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 
 def login_view(request):
- return render(request,'SpaIntranet/login.html')
+ return render(request,'intranet/login.html')
 
 def home_view(request):
- return render(request,'SpaIntranet/home.html')
+ return render(request,'intranet/home.html')
 
 @login_required
 @permission_required('app.permission_code', raise_exception=True)
