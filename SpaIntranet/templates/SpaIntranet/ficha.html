@@ -1,0 +1,185 @@
+{% extends 'SpaIntranet/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+<style>
+  
+  .ficha-clinica {
+    width: 100%;
+    max-width: 800px;
+    
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px;
+    box-sizing: border-box;
+    min-width: 250px;
+  }
+  .container {
+    position: relative;
+    max-width: auto;
+    min-width: 250px;
+    width: 100%;
+    height: auto;
+    margin: 30px;
+    padding: 20px;
+    border: 1px solid #000;
+    /* Prepara el contenedor para el pseudo-elemento */
+    overflow: hidden;
+    border-radius: 25px;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("{% static 'imagenes/5.png' %}") no-repeat center center;
+    background-size: cover;
+    /* Aplica la transparencia a la imagen de fondo */
+    opacity: 0.3;
+    z-index: -1;/*manda hacia atras los elementos*/
+  }
+  
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .header h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em;
+  }
+
+  .logo {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .logo img {
+    max-width: 100px; /* Adjust as needed */
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .column {
+    flex: 1;
+    padding: 0 10px;
+  }
+
+  .column:not(:last-child) {
+    border-right: 2px dashed #ccc;
+  }
+
+  label {
+    display: block;
+    margin: 5px 0;
+    color:#000000;
+    font-weight: bold;
+    
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .divider {
+    height: 2px;
+    background: #ccc;
+    margin: 20px 0;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="ficha-clinica">
+        <div class="header">
+            <h1>FICHA CLÍNICA</h1>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+            <label>NOMBRE DEL PACIENTE:</label>
+            <input type="text">
+
+            <label>TELÉFONO:</label>
+            <input type="text">
+
+            <label>MOTIVO DE CONSULTA:</label>
+            <input type="text">
+
+            <label>CARDIOVASCULARES:</label>
+            <input type="text">
+
+            <label>ALERGICOS:</label>
+            <input type="text">
+
+            <label>RESPIRATORIOS:</label>
+            <input type="text">
+            </div>
+            
+            <div class="column">
+            <label>SEXO:</label>
+            <input type="text">
+
+            <label>EDAD:</label>
+            <input type="text">
+
+            <label>OCUPACIÓN:</label>
+            <input type="text">
+
+            <label>ANTECEDENTES PERSONALES PATOLÓGICOS:</label>
+            <div class="row" style="margin: 0; padding: 0;">
+                <div class="column" style="padding: 0; border-right: none;">
+                <label>RENALES:</label>
+                <input type="text">
+
+                <label>QUIRÚRGICOS:</label>
+                <input type="text">
+                </div>
+                
+                <div class="column" style="padding: 0;">
+                <label>PULMONARES:</label>
+                <input type="text">
+
+                <label>DIGESTIVOS:</label>
+                <input type="text">
+                </div>
+            </div>
+
+            <label>OTROS:</label>
+            <input type="text">
+            </div>
+        </div>
+
+        <div class="divider"></div>
+        
+    
+    </div>
+</div>
+</body>
+
+
+  
+{% endblock %}

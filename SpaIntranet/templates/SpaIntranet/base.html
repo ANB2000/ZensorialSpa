@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>Zensorial SPA & Wellness Bar</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <!-- Asegúrate de tener un archivo styles.css en tu carpeta de archivos estáticos -->
     
 </head>
@@ -26,10 +27,10 @@
             
             <!-- Aquí irían los enlaces del menú -->
             <ul id="menu">
-                <a href="#"><li>FICHA CLÍNICA</li></a>
-                <a href="#"><li>CITAS</li></a>
+                <a href="{% url 'ficha' %}"><li>FICHA CLÍNICA</li></a>
+                <a href=""><li>CITAS</li></a>
                 <a href="#"><li>EMPLEADOS</li></a>
-                <a href="#"><li>CERRAR SESIÓN</li></a>
+                <a href="{% url 'login' %}"><li>CERRAR SESIÓN</li></a>
             </ul>
         </div>
         <div class="titulo">
