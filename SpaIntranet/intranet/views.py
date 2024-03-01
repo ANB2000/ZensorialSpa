@@ -8,9 +8,14 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
+from django.shortcuts import redirect
 
-def login(request):
-    return render(request,'intranet/login.html')
+def login_view(request):
+ return render(request,'SpaIntranet/login.html')
+
+def home_view(request):
+ return render(request,'SpaIntranet/home.html')
 
 @login_required
 @permission_required('app.permission_code', raise_exception=True)
