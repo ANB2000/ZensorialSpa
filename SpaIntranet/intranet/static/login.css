@@ -1,0 +1,80 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  
+}
+
+.login-container {
+  
+  padding: 40px;
+  width: 90%;
+  max-width: 500px; /* Ajustar para dispositivos pequeños */
+  margin:auto; /* Agregando margen automático para centrar en dispositivos grandes */
+  margin: auto;
+  padding: 2em;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 50vh; /* Abarca el 50% de la pantalla */
+}
+
+.img {
+  
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  max-width: 100%; 
+  height: auto; /* Mantiene la proporción de aspecto */
+  display: block; /* Evita espacio adicional por alineación inline */
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+  border-radius: 10px;
+}
+
+h2 {
+  color: #333;
+  text-align: center;
+}
+
+.form-input {
+  margin-bottom: 15px;
+}
+
+.form-input input {
+  width: calc(100% - 20px);
+  max-width: 300px; /* Ajusta este valor según tus necesidades */
+  padding: 15px;
+  border: 1px solid #ccc;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+  box-sizing: border-box;
+  margin: 0 auto; /* Centra horizontalmente */
+  display: block; /* Para que el margen automático funcione correctamente */
+  
+}
+
+.form-input input:focus {
+  outline: none;
+  border-color: #6e8f72;
+}
+
+.login-button {
+  width: calc(100% - 50px);
+  max-width: 200px; /* Ajusta este valor según tus necesidades */
+  padding: 15px;
+  border: none;
+  background-color: #6e8f72;
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+  font-size: 16px;
+  margin: 0 auto; /* Centra horizontalmente */
+  display: block; /* Para que el margen automático funcione correctamente */
+}
+
+.login-button:hover {
+  background-color: #5d7f64;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>  
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
+    
+    <link rel="stylesheet" href="{% static 'css/styleslogin.css' %}">
+</head>
+
+<body>
+
+    <div class="logo">
+        <!-- Suponiendo que tienes una imagen logo.png en la misma carpeta que tu HTML -->
+        <img src="{%static 'images/logo.png' %}" alt="ZENSORIAL SPA & WELLNESS BAR Logo" class="logo.img">
+    </div>
+
+    <div class="login-container">  
+        <h2>BIENVENIDO</h2>
+        
+        <form action="{% url 'home' %}" method="post"> <!-- Actualizar con la URL correcta -->
+            {% csrf_token %}
+            <h4>Usuario</h4>
+            <div class="form-input">
+                <input type="text" name="username">
+            </div>
+            <h4>Contraseña</h4>
+            <div class="form-input">
+                <input type="password" name="password">
+            </div>
+
+            <button type="submit" class="login-button">INICIAR SESIÓN</button>
+        </form>
+    </div>
+</body>
+</html>
+

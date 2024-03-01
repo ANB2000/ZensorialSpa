@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <img class="img" src="{% static 'images/5.png' %}" alt="Zensorial SPA & Wellness Bar">
+        <h2>BIENVENIDO</h2>
+        <form action="/login" method="post"> <!-- Actualizar con la URL correcta -->
+            
+            <div class="form-input">
+                <input type="text" name="username" placeholder="USUARIO">
+            </div>
+            <div class="form-input">
+                <input type="password" name="password" placeholder="CONTRASEÑA">
+            </div>
+            <button type="submit" class="login-button">INICIAR SESIÓN</button>
+        </form>
+    </div>
+</body>
+</html>
+
