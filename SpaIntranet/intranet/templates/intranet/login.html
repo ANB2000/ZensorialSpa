@@ -1,88 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
-    {% load static %} <!--cada plantilla que utilice tags estáticos debe de tener esta linea en la parte superior-->
-
 <head>
     <meta charset="UTF-8">
     <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-
-        .logo {
-            background-color: #e6e6e6;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px 5px 0 0;
-        }
-
-        .logo img {
-            width: 50%; /* Adjust the size as needed */
-        }
-
-        h2 {
-            color: #333;
-            text-align: center;
-        }
-
-        .form-input {
-            margin-bottom: 15px;
-        }
-
-        .form-input input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box; /* Include padding in width */
-        }
-
-        .form-input input:focus {
-            outline: none;
-            border-color: #6e8f72;
-        }
-
-        .login-button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #6e8f72;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .login-button:hover {
-            background-color: #5d7f64;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
 </head>
 <body>
     <div class="login-container">
-        <div class="logo">
-            <!-- Configuracion correcta para jalar la imagen de la carpeta static -->
-            <link rel="stylesheet" type="text/css" href="{% static 'logologin.png' %}" alt="Zensorial logo">
-
-        </div>
+        <img class="img" src="{% static 'images/5.png' %}" alt="Zensorial SPA & Wellness Bar">
         <h2>BIENVENIDO</h2>
         <form action="/login" method="post"> <!-- Actualizar con la URL correcta -->
+            
             <div class="form-input">
                 <input type="text" name="username" placeholder="USUARIO">
             </div>

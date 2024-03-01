@@ -1,7 +1,5 @@
-from django.urls import path
-from intranet.views import login
+from django.urls import path, include
 
 urlpatterns = [
-    path('', login, name='login'),# Esto hace que tome el login como la primer pagina al ejecutar la web
-    
+    path('', include('intranet.urls')),    
 ]
