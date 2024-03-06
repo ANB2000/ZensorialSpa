@@ -11,6 +11,13 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.shortcuts import redirect
 
+
+def activate_view(request):
+ return render(request,'intranet/activate_account.html')
+
+def ficha_view(request):
+ return render(request,'intranet/ficha.html')
+
 def login_view(request):
  return render(request,'intranet/login.html')
 

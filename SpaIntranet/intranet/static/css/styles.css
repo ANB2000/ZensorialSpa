@@ -1,9 +1,7 @@
-@media (min-width: 100px) {
 body {
     
     font-family: "Julius Sans One", sans-serif;
     margin: auto;
-    
     width: auto;
     height: auto;
     display: flex;
@@ -30,7 +28,8 @@ nav {
     
 }
 .imgcentral {
-    height: 70vh;
+    
+    height: 40vh;
     border-radius: 40px;
     
   }
@@ -158,6 +157,8 @@ content{
 #menu li {
     padding: 10px 0;
     font-size: 22px;
+    color: white; /* Cambiar el color del texto a blanco */
+    text-decoration: none; /* Eliminar el subrayado azul */
 }
 
 /*
@@ -167,16 +168,13 @@ content{
     transform: none;
 }
 .logo_central {
-    
-    display: flex;
-    flex-direction: column;         /* Usa flexbox para centrar el contenido */
+    text-align: center;
+             /* Usa flexbox para centrar el contenido */
     justify-content: center;/* Centra el contenido horizontalmente */
     align-items: center;    /* Centra el contenido verticalmente */
     border: 10px solid white; /* Añade un borde de 10px de ancho de color blanco */
-    opacity: 0.5;  
-    width: 100%;  
-    height: auto;     /* Añade transparencia al contenido */
+    opacity: 0.5;
+       /* Añade transparencia al contenido */
     /*width:  width of the logo */; /* Define un ancho si es necesario */
     /*height:  height of the logo */; /* Define un alto si es necesario */
-}
 }

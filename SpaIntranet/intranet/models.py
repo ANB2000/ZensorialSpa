@@ -78,7 +78,7 @@ class Cita(models.Model):
         ('por_confirmar', 'Por confirmar'),
         ('asistio', 'Asistio'),
         ('cancelada', 'Cancelada'),
-        ('reagendada', 'Reagendada'),
+        ('reagendada', 'Reagendada'),110
     ]
     status = models.CharField(
         max_length=20,
