@@ -1,0 +1,90 @@
+.formulario-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px; /* Ajusta según tus necesidades */
+    background: #fff;
+    padding: 20px;
+    border:2px solid #547E74;;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header {
+    background: #699c90;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.header div {
+    flex-basis: calc(33.333% - 10px);
+    text-align: center;
+}
+
+
+.input-group {
+    
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+   
+    margin-bottom: 5px;
+    
+    
+}
+
+.input-group input,
+.input-group textarea {
+    width: 98%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #547E74;
+    border-radius: 10px;
+    height: 14px;
+}
+
+.input-group textarea {
+    
+    resize: vertical;
+}
+
+.footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #e9e9e9;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.button-container button {
+    padding: 15px 30px;
+    font-size: 16px;
+    color: white;
+    background-color: #528176;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container button:hover {
+    background-color: #44c767;
+}
+label{
+    font-weight: bold;
+}
+.labelheader{
+    color: #ffffff;
+}

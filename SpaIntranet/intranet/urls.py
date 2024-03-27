@@ -1,13 +1,16 @@
 from django.urls import path
 from . import views
-from .views import ActivateAccountView, CustomLoginView
+
 urlpatterns = [
 
     path('', views.login_view, name='login'),
     path('home/', views.home_view, name='home'),
     path('ficha/', views.ficha_view, name='ficha'),
-    path('activate_acount/', views.activate_view, name='activate_account'),
-
-    path('activate-account/<int:user_id>/', ActivateAccountView.as_view(), name='activate_account'),
+    path('index/', views.activate_view, name='index'),
+    path('cita/', views.cita_view, name='cita'),
+    path('cambio_contrasena_form/', views.pass_view, name='cambio_contrasena_form'),
+    path('cambiar_contrasena/', views.cambiar_contrasena, name='cambiar_contrasena'),
+    path('user_validate/', views.user_validate, name='user_validate'),
     
+
 ]

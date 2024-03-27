@@ -1,0 +1,80 @@
+<html><head></head><body>{% extends 'intranet/base.html' %}
+
+    {% block content %}
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/stylecita.css' %}">
+    
+    
+        
+            <h1 style="text-align: center;">CITAS</h1>
+            <div class="formulario-container">
+                <div class="header">
+                    <div> 
+                        <label class="labelheader">FECHA DE ALTA CITA:</label> 
+                        <input type="date" id="fechaCita" name="fechaCita">
+                    </div>
+                    <div>
+                        <label class="labelheader">ESTATUS</label> 
+                        <input type="text" id="statusCita" name="statusCita">
+                    </div>
+                    <div>
+                        <label class="labelheader">PAQUETE:</label> 
+                        <input type="text" id="paqueteCita" name="paqueteCita">
+                    </div>
+                </div>
+            
+                <div class="input-group">
+                    <label for="nombrePaciente">NOMBRE DEL PACIENTE:</label>
+                    <input type="text" id="nombrePaciente" name="nombrePaciente">
+                </div>
+            
+                <div class="input-group">
+                    <label for="telefonoCita" style="margin-right: 10px;">TELÉFONO:</label>
+                    <input type="text" id="telefonoCita" name="telefonoCita">
+                    
+                    <label for="servicio" style="margin-right: 10px;margin-left: 10px;">SERVICIO:</label>
+                    <input type="text" id="servicio" name="servicio">
+                </div>
+                <div class="header">
+                    <div> 
+                        <label class="labelheader">No. SESIONES:</label> 
+                        <input type="number" id="fechaCita" name="fechaCita">
+                    </div>
+                    <div>
+                        <label class="labelheader">SESIONES TOMADAS:</label> 
+                        <input type="number" id="statusCita" name="statusCita">
+                    </div>
+                    <div>
+                        <label class="labelheader">SESIONES FALTANTES:</label> 
+                        <input type="number" id="paqueteCita" name="paqueteCita">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="metodoPago">MÉTODO DE PAGO:</label>
+                    <input type="text" id="metodoPago" name="metodoPago">
+                </div>
+                <div class="input-group">
+                    <label for="asignado" style="margin-right: 10px;">ASIGNADO:</label>
+                    <input type="text" id="asignado" name="asignado">
+                </div>
+                <div class="input-group">
+                    <label for="observaciones">OBSERVACIONES:</label>
+                    <textarea id="observaciones" name="observaciones"></textarea>
+                </div>
+    
+                
+            
+                <div class="button-container">
+                    <button type="submit">AGENDAR</button>
+                </div>
+            
+                <div class="footer">
+                    ZENSORIAL SPA &amp; WELLNESS BAR
+                </div>
+            </div>
+            
+            
+    
+      
+    {% endblock %}</body></html>

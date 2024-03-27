@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, Group
 class Command(BaseCommand):
     # Una breve descripción del comando. Django la muestra cuando ejecutas 'python manage.py help'
     help = 'Crea usuarios y grupos iniciales y los marca para cambiar su contraseña'
-
+    default_users= ''
     # El método 'handle' es el punto de entrada principal de nuestro comando.
     # Django llama a este método cuando ejecutamos 'python manage.py create_initial_users'.
     def handle(self, *args, **options):
@@ -30,17 +30,17 @@ class Command(BaseCommand):
         default_users = [
             {
                 'username': 'Usuario',
-                'password': 'Spa2024*',  
+                'password': 'ZensorialSpa2024*',  
                 'group': 'Usuario básico'
             },
             {
-                'username': 'Administrador',
-                'password': 'Spa2024*',  
+                'username': 'Admin',
+                'password': 'ZensorialSpa2024*',  
                 'group': 'Administrador'
             },
             {
-                'username': 'Soporte',
-                'password': 'Spa2024*',  
+                'username': 'Master',
+                'password': 'ZensorialSpa2024*',  
                 'group': 'Soporte'
             },
         ]
@@ -56,7 +56,7 @@ class Command(BaseCommand):
                 # Añadimos el usuario al grupo correspondiente.
                 user.groups.add(groups[user_data['group']])
                 # Guardamos el usuario con la nueva contraseña y grupo.
-                user.is_active = False
+                user.is_active = True
                 user.save()
                 # Informamos al usuario que el usuario se ha creado correctamente.
                 self.stdout.write(self.style.SUCCESS(f'Usuario creado: {user.username}'))

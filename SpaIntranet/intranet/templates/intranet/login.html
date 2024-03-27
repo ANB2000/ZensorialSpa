@@ -9,7 +9,7 @@
     <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
     
     <link rel="stylesheet" href="{% static 'css/styleslogin.css' %}">
-</head>
+</head> 
 
 <body>
 
@@ -21,20 +21,26 @@
     <div class="login-container">  
         <h2>BIENVENIDO</h2>
         
-        <form action="{% url 'home' %}" method="post"> <!-- Actualizar con la URL correcta -->
+        <form id="login-form" action="{% url 'user_validate' %}" method="post"> <!-- Funcion para validacion de usuario -->
             {% csrf_token %}
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
             <h4>Usuario</h4>
+            
             <div class="form-input">
-                <input type="text" name="username">
+                <input id="username" type="text" name="username" placeholder="Nombre de usuario" >
+                
             </div>
             <h4>Contraseña</h4>
             <div class="form-input">
-                <input type="password" name="password">
+                <input id="password" type="password" name="password" placeholder="Contraseña" >
             </div>
 
             <button type="submit" class="login-button">INICIAR SESIÓN</button>
         </form>
     </div>
 </body>
+
 </html>
 

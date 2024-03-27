@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
+    
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <title>Cambio de contraseña</title>
+ 
+    
+</head>
+<body>
+    
+        <div class="logo">
+            <img src="{%static 'images/logo.png' %}" alt="ZENSORIAL SPA & WELLNESS BAR Logo" class="logo.img">
+        </div>
+        <div>
+            {% include 'intranet/cambio_contrasena_form.html' %}
+            
+            
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                // Verifica si hay mensajes para mostrar
+                if ($(".modal-body").text().trim() !== '') {
+                    // Muestra el modal
+                    $("#messageModal").modal('show');
+                }
+            });
+        </script>
+</body>
+</html>
