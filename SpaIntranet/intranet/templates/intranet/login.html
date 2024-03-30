@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
     <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
-    
     <link rel="stylesheet" href="{% static 'css/styleslogin.css' %}">
+ 
 </head> 
 
 <body>
@@ -17,15 +17,12 @@
         <!-- Suponiendo que tienes una imagen logo.png en la misma carpeta que tu HTML -->
         <img src="{%static 'images/logo.png' %}" alt="ZENSORIAL SPA & WELLNESS BAR Logo" class="logo.img">
     </div>
-
+    
     <div class="login-container">  
         <h2>BIENVENIDO</h2>
         
         <form id="login-form" action="{% url 'user_validate' %}" method="post"> <!-- Funcion para validacion de usuario -->
             {% csrf_token %}
-            {% if error_message %}
-                <p class="error-message">{{ error_message }}</p>
-            {% endif %}
             <h4>Usuario</h4>
             
             <div class="form-input">
@@ -39,7 +36,41 @@
 
             <button type="submit" class="login-button">INICIAR SESIÓN</button>
         </form>
+    </div> 
+    <!-- Modal Container -->
+    <div class="bootstrap-modal-container">
+        <!-- Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Mensaje</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Verifica si hay mensajes para mostrar
+            if ($(".modal-body").text().trim() !== '') {
+                // Muestra el modal
+                $("#loginModal").modal('show');
+            }
+        });
+    </script>
+    
 </body>
 
 </html>

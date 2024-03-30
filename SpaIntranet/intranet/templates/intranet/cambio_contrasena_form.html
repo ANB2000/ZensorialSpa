@@ -3,19 +3,16 @@
 <div class="pass-container">  
     <h2>CAMBIO DE CONTRASEÑA</h2>
     
-    <form id="cambio pass" action="{% url 'cambiar_contrasena' %}" method="post"> <!-- Funcion para validacion de usuario -->
+    <form id="cambio-pass" action="{% url 'cambiar_contrasena' %}" method="post"> <!-- Funcion para validacion de usuario -->
         {% csrf_token %}
-        {% if error_message %}
-            <p class="error-message">{{ error_message }}</p>
-        {% endif %}
         <h4>Usuario</h4>
         <div class="form-input">
             <input id="username" type="text" name="username" placeholder="Nombre de usuario" required>
             
         </div>
-        <h4>CONTRASEÑA ACTUAL</h4>
+        <h4>Contraseña actual</h4>
         <div class="form-input">
-            <input type="password" name="old_password" id="old_password" placeholder="Contraseña actual"required>
+            <input type="password" name="password" id="password" placeholder="Contraseña actual"required>
         
         </div>
         <h4>Nueva contraseña</h4>

@@ -30,7 +30,7 @@ def user_validate(request):
                         return redirect('index')
                 else:
                     print("Usuario valido, ya cambio su contraseña")
-                    messages.success("Usuario y contraseña correctos.")
+                    messages.success(request,"Usuario y contraseña correctos.")
                     return redirect('home')
             else:
                 print("El Usuario no esta activo")
@@ -65,7 +65,6 @@ def cita_view(request):
  return render(request,'intranet/cita.html')
 def ficha_view(request):
  return render(request,'intranet/ficha.html')
-
 
 @login_required
 @permission_required('app.permission_code', raise_exception=True)
@@ -103,33 +102,36 @@ def password_complex(password):
 def cambiar_contrasena(request):
   
   if request.method == 'POST':
-    form = PasswordChangeForm(user=request.user, data=request.POST)
+    #form = PasswordChangeForm(user=request.user, data=request.POST)
+    form = AuthenticationForm(request, data=request.POST)
+    print(request.POST)
     if form.is_valid():
-        password_actual = form.cleaned_data.get('old_password')
+        password = form.cleaned_data.get('password')
         nueva_contrasena = form.cleaned_data.get('new_password1')
         confirmar_contrasena = form.cleaned_data.get('new_password2')
         username = form.cleaned_data.get('username')
-        
+        user = authenticate(username=username, password=password)
         print("Si es un metodo POST")
         print(request.POST)
-        user = authenticate(username=username, password=password_actual)
         # Validar la contraseña actual
-        if not request.user.check_password(password_actual):
-          print("Se esta validando la pass actual" )
-          messages.error(request, "La contraseña actual no es válida.")
-          return redirect('index')
+        if request.user.is_authenticated:
+            if request.user.check_password(password):
+                print("Se esta validando la pass actual" )
+                messages.error(request, "La contraseña actual no es válida.")
+                return redirect('index')
 
         # Validar que la nueva contraseña y la confirmacion coincidan
         if nueva_contrasena != confirmar_contrasena:
           print("Las contraseñas no coinciden")
           messages.error(request, "Las contraseñas no coinciden.")
           return redirect('index')
-
+        
+        
         # Validar la complejidad de la nueva contraseña
-        if not password_complex(nueva_contrasena):
-          print("se valido la complejidad de la nueva contraseña")
-          messages.error(request, "La contraseña no cumple con los requisitos de seguridad.")
-          return redirect('index')
+        #if not password_complex(password):
+         # print("se valido la complejidad de la nueva contraseña")
+          #messages.error(request, "La contraseña no cumple con los requisitos de seguridad.")
+          #return redirect('index')
         
         # Validar que la nueva contraseña no sea igual a la actual
         if request.user.check_password(nueva_contrasena):

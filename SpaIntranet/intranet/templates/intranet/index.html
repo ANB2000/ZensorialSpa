@@ -2,38 +2,60 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
-    <title>ZENSORIAL SPA & WELLNESS BAR - Iniciar Sesión</title>
-    
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <title>Cambio de contraseña</title>
- 
-    
+
+
 </head>
+
 <body>
+
+    <div class="logo">
+        <img src="{%static 'images/logo.png' %}" alt="ZENSORIAL SPA & WELLNESS BAR Logo" class="logo.img">
+    </div>
     
-        <div class="logo">
-            <img src="{%static 'images/logo.png' %}" alt="ZENSORIAL SPA & WELLNESS BAR Logo" class="logo.img">
+        {% include 'intranet/cambio_contrasena_form.html' %}
+
+     <!-- Modal Container -->
+     <div class="bootstrap-modal-container">
+        <!-- Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Mensaje</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            {% include 'intranet/cambio_contrasena_form.html' %}
-            
-            
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                // Verifica si hay mensajes para mostrar
-                if ($(".modal-body").text().trim() !== '') {
-                    // Muestra el modal
-                    $("#messageModal").modal('show');
-                }
-            });
-        </script>
-</body>
+    </div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Verifica si hay mensajes para mostrar
+            if ($(".modal-body").text().trim() !== '') {
+                // Muestra el modal
+                $("#loginModal").modal('show');
+            }
+        });
+    </script>
+
+
 </html>
