@@ -1,11 +1,11 @@
 from django.db import models
 
 class Cliente(models.Model):
-    nombre = models.CharField(max_length=30)
-    telefono = models.CharField(max_length=15, unique=True) 
+    nombre_cliente = models.CharField(max_length=30)
+    telefono_cliente = models.CharField(max_length=15, unique=True) 
 
 class FichaClinica(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    nombre_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     fecha_ficha = models.DateTimeField(null=True, blank=True)  
     edad = models.IntegerField(null=False, blank=False)
     ocupacion = models.CharField(max_length=30, blank=True, null=True)
@@ -39,7 +39,7 @@ class FichaClinica(models.Model):
     imc = models.FloatField(null=False, blank=False) 
 
 class Personal(models.Model):
-    nombre = models.CharField(max_length=35, null=False, blank=False)
+    nombre_empleado = models.CharField(max_length=35, null=False, blank=False)
     horario_laboral_inicio = models.TimeField(null=False, blank=False, default='00:00')#Formato aceptado 09:00 ya que es 24hrs
     horario_laboral_fin = models.TimeField(null=False, blank=False, default='00:00')
     #ESTA ES UNA LISTA DE TUPLAS PARA DEFINIR EL STATUS DEL PERSONAL 
@@ -55,7 +55,7 @@ class Personal(models.Model):
     
 
 class Cita(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    nombre_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     fecha_cita = models.DateTimeField(null=False, blank=False)
     horario_cita_inicio = models.TimeField(null=False, blank=False, default='00:00') #Formato aceptado 09:00 ya que es 24hrs
     horario_cita_fin = models.TimeField(null=False, blank=False, default='00:00')
@@ -65,6 +65,7 @@ class Cita(models.Model):
     total_sesiones = models.CharField(max_length=2, null=True, blank=True)
     sesiones_tomadas = models.CharField(max_length=2, null=True, blank=True)
     sesiones_faltantes = models.CharField(max_length=2, null=True, blank=True)
+    observaciones = models.CharField(max_length=255, null=True, blank=True)
     # ForeignKey para referenciar al personal asignado a la cita
     asignado_a = models.ForeignKey(
         Personal, 

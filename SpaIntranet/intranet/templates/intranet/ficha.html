@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <head></head>
 <body>
   <body>{% extends 'intranet/base.html' %}
@@ -11,7 +11,8 @@
     
     
     
-        <form class="formulario">
+        <form class="formulario" action="{% url 'crear_ficha_clinica' %}" method="post">
+            {% csrf_token %}
             <div class="header">
                 <h1>FICHA CLÍNICA</h1>
             </div>

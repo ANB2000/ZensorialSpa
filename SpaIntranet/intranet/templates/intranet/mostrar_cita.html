@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% extends 'intranet/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/stylecita.css' %}" />
+
+<h1 style="text-align: center">INFORMACION GUARDADA DE CITA</h1>
+<div class="formulario-container">
+  <div class="header">
+    <div>
+      <label class="labelheader">FECHA DE LA CITA:</label>
+      <input type="date" id="fechaCita" name="fechaCita" value="{{ cita.fecha_cita|date:'Y-m-d' }}" readonly />
+    </div>
+    <div>
+      <label class="labelheader" for="statusCita">ESTATUS</label>
+      <input type="text" id="statusCita" name="statusCita" value="{{ cita.get_status_display }}" readonly />
+    </div>
+    <div>
+      <label class="labelheader">ES PAQUETE:</label>
+      <input type="text" id="paqueteCita" name="paqueteCita" value="{{ cita.paquete }}" readonly />
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="nombreCliente">NOMBRE DEL CLIENTE:</label>
+    <input type="text" id="nombreCliente" name="nombreCliente" value="{{ cita.nombre_cliente.nombre_cliente}}" readonly />
+  </div>
+
+  <div class="input-group">
+    <label for="telefonoCliente" style="margin-right: 10px">TELÉFONO:</label>
+    <input type="text" id="telefonoCliente" name="telefonoCliente" value="{{ cita.nombre_cliente.telefono_cliente }}" readonly />
+
+    <label for="servicio" style="margin-right: 10px; margin-left: 10px">SERVICIO:</label>
+    <input type="text" id="servicio" name="servicio" value="{{ cita.servicio }}" readonly />
+  </div>
+  <div class="header">
+    <div>
+      <label class="labelheader">TOTAL SESIONES:</label>
+      <input type="number" id="totalSesiones" name="totalSesiones" value="{{ cita.total_sesiones }}" readonly />
+    </div>
+    <div>
+      <label class="labelheader">SESIONES TOMADAS:</label>
+      <input type="number" id="sesionesTomadas" name="sesionesTomadas" value="{{ cita.sesiones_tomadas }}" readonly />
+    </div>
+    <div>
+      <label class="labelheader">SESIONES FALTANTES:</label>
+      <input type="number" id="sesionesFaltantes" name="sesionesFaltantes" value="{{ cita.sesiones_faltantes }}" readonly />
+    </div>
+  </div>
+  <div class="input-group">
+    <label>HORA INICIO:</label>
+    <input type="text" id="horaInicio" name="horaInicio" value="{{ cita.horario_cita_inicio }}" readonly />
+  </div>
+  <div class="input-group">
+    <label>HORA FIN:</label>
+    <input type="text" id="horaFin" name="horaFin" value="{{ cita.horario_cita_fin }}" readonly />
+  </div>
+  <div class="input-group">
+    <label for="metodoPago">MÉTODO DE PAGO:</label>
+    <input type="text" id="metodoPago" name="metodoPago" value="{{ cita.metodo_pago }}" readonly />
+  </div>
+  <div class="input-group">
+    <label for="asignado" style="margin-right: 10px">ASIGNADO:</label>
+    <input type="text" id="asignado" name="asignado" value="{{ cita.asignado_a.nombre_empleado }}" readonly />
+  </div>
+
+  <div class="input-group">
+    <label for="observaciones">OBSERVACIONES:</label>
+    <textarea id="observaciones" name="observaciones" readonly>{{ cita.observaciones }}</textarea>
+  </div>
+
+  <div class="button-container">
+    <a href="{% url 'home' %}" class="btn btn-primary">Regresar a Home</a>
+  </div>
+
+  <div class="footer">ZENSORIAL SPA &amp; WELLNESS BAR</div>
+</div>
+
+{% endblock %}
+
+                

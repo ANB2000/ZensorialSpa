@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<!-- plantilla para mostrar las citas encontradas -->
+{% for cita in citas %}
+    <div>
+        <p>Cita ID: {{ cita.id }}</p>
+        <p>Fecha: {{ cita.fecha_cita }}</p>
+        <p>Horario: {{ cita.horario_cita_inicio }} - {{ cita.horario_cita_fin }}</p>
+        <p>Servicio: {{ cita.servicio }}</p>
+        <!-- Agregar más detalles de la cita según sea necesario -->
+        <a href="{% url 'editar_cita' cita.id %}">Editar</a>
+    </div>
+{% endfor %}

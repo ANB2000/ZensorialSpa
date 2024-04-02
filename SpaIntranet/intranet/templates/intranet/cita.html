@@ -1,80 +1,163 @@
-<html><head></head><body>{% extends 'intranet/base.html' %}
+<!DOCTYPE html>
+{% extends 'intranet/base.html' %}
+<html>
+  <head></head>
+  {% load static %}  
+  {% block content %}
+  <link rel="stylesheet" href="{% static 'css/stylecita.css' %}" />
 
-    {% block content %}
-    
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/stylecita.css' %}">
-    
-    
-        
-            <h1 style="text-align: center;">CITAS</h1>
-            <div class="formulario-container">
-                <div class="header">
-                    <div> 
-                        <label class="labelheader">FECHA DE ALTA CITA:</label> 
-                        <input type="date" id="fechaCita" name="fechaCita">
-                    </div>
-                    <div>
-                        <label class="labelheader">ESTATUS</label> 
-                        <input type="text" id="statusCita" name="statusCita">
-                    </div>
-                    <div>
-                        <label class="labelheader">PAQUETE:</label> 
-                        <input type="text" id="paqueteCita" name="paqueteCita">
-                    </div>
-                </div>
-            
-                <div class="input-group">
-                    <label for="nombrePaciente">NOMBRE DEL PACIENTE:</label>
-                    <input type="text" id="nombrePaciente" name="nombrePaciente">
-                </div>
-            
-                <div class="input-group">
-                    <label for="telefonoCita" style="margin-right: 10px;">TELÉFONO:</label>
-                    <input type="text" id="telefonoCita" name="telefonoCita">
-                    
-                    <label for="servicio" style="margin-right: 10px;margin-left: 10px;">SERVICIO:</label>
-                    <input type="text" id="servicio" name="servicio">
-                </div>
-                <div class="header">
-                    <div> 
-                        <label class="labelheader">No. SESIONES:</label> 
-                        <input type="number" id="fechaCita" name="fechaCita">
-                    </div>
-                    <div>
-                        <label class="labelheader">SESIONES TOMADAS:</label> 
-                        <input type="number" id="statusCita" name="statusCita">
-                    </div>
-                    <div>
-                        <label class="labelheader">SESIONES FALTANTES:</label> 
-                        <input type="number" id="paqueteCita" name="paqueteCita">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="metodoPago">MÉTODO DE PAGO:</label>
-                    <input type="text" id="metodoPago" name="metodoPago">
-                </div>
-                <div class="input-group">
-                    <label for="asignado" style="margin-right: 10px;">ASIGNADO:</label>
-                    <input type="text" id="asignado" name="asignado">
-                </div>
-                <div class="input-group">
-                    <label for="observaciones">OBSERVACIONES:</label>
-                    <textarea id="observaciones" name="observaciones"></textarea>
-                </div>
-    
-                
-            
-                <div class="button-container">
-                    <button type="submit">AGENDAR</button>
-                </div>
-            
-                <div class="footer">
-                    ZENSORIAL SPA &amp; WELLNESS BAR
-                </div>
-            </div>
-            
-            
-    
-      
-    {% endblock %}</body></html>
+  <form method="post" action="{% url 'crear_cita' %}">
+    {% csrf_token %}
+
+    <h1 style="text-align: center">CREAR CITA</h1>
+    <div class="formulario-container">
+      <div class="header">
+        <div>
+          <label class="labelheader">FECHA DE LA CITA:</label>
+          <input type="date" id="fechaCita" name="fechaCita" />
+        </div>
+        <div>
+          <label class="labelheader" for="statusCita">ESTATUS</label>
+          <select id="statusCita" name="statusCita">
+            <option value="por_confirmar">Por confirmar</option>
+            <option value="asistio">Asistió</option>
+            <option value="cancelada">Cancelada</option>
+            <option value="reagendada">Reagendada</option>
+          </select>
+        </div>
+        <div>
+          <label class="labelheader">ES PAQUETE:</label>
+          <input type="text" id="paqueteCita" name="paqueteCita" />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="nombreCliente">NOMBRE DEL PACIENTE:</label>
+        <input type="text" id="nombreCliente" name="nombreCliente" />
+      </div>
+
+      <div class="input-group">
+        <label for="telefonoCliente" style="margin-right: 10px"
+          >TELÉFONO:</label
+        >
+        <input type="text" id="telefonoCliente" name="telefonoCliente" />
+
+        <label for="servicio" style="margin-right: 10px; margin-left: 10px"
+          >SERVICIO:</label
+        >
+        <input type="text" id="servicio" name="servicio" />
+      </div>
+      <div class="header">
+        <div>
+          <label class="labelheader">TOTAL SESIONES:</label>
+          <input type="number" id="totalSesiones" name="totalSesiones" />
+        </div>
+        <div>
+          <label class="labelheader">SESIONES TOMADAS:</label>
+          <input type="number" id="sesionesTomadas" name="sesionesTomadas" />
+        </div>
+        <div>
+          <label class="labelheader">SESIONES FALTANTES:</label>
+          <input
+            type="number"
+            id="sesionesFaltantes"
+            name="sesionesFaltantes"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="input-group">
+        <label>HORA INICIO:</label>
+        <input type="text" id="horaInicio" name="horaInicio" />
+      </div>
+      <div class="input-group">
+        <label>HORA FIN:</label>
+        <input type="text" id="horaFin" name="horaFin" />
+      </div>
+      <div class="input-group">
+        <label for="metodoPago">MÉTODO DE PAGO:</label>
+        <input type="text" id="metodoPago" name="metodoPago" />
+      </div>
+      <div class="input-group">
+        <label for="asignado" style="margin-right: 10px">ASIGNADO:</label>
+        <select id="asignado" name="asignado"></select>
+      </div>
+
+      <div class="input-group">
+        <label for="observaciones">OBSERVACIONES:</label>
+        <textarea id="observaciones" name="observaciones"></textarea>
+      </div>
+
+      <div class="button-container">
+        <button type="submit">GUARDAR</button>
+      </div>
+
+      <div class="footer">ZENSORIAL SPA &amp; WELLNESS BAR</div>
+    </div>
+  </form>
+
+  <!-- Escript para hacer el calculo de sesiones faltantes -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Función para calcular y mostrar las sesiones faltantes
+      function calcularSesionesFaltantes() {
+        const totalSesiones =
+          parseInt(document.getElementById("totalSesiones").value) || 0;
+        const sesionesTomadas =
+          parseInt(document.getElementById("sesionesTomadas").value) || 0;
+        const sesionesFaltantes = totalSesiones - sesionesTomadas;
+
+        document.getElementById("sesionesFaltantes").value =
+          sesionesFaltantes >= 0 ? sesionesFaltantes : 0;
+      }
+
+      // Adjuntar el evento input a totalSesiones y sesionesTomadas para actualizar las sesiones faltantes
+      document
+        .getElementById("totalSesiones")
+        .addEventListener("input", calcularSesionesFaltantes);
+      document
+        .getElementById("sesionesTomadas")
+        .addEventListener("input", calcularSesionesFaltantes);
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      function actualizarDisponibilidad() {
+        var horaInicio = document.getElementById("horaInicio").value;
+        var fechaCita = document.getElementById("fechaCita").value;
+
+        fetch("/verificar_disponibilidad/", {
+          // Asegúrate de que la URL sea correcta
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}",
+          },
+          body: JSON.stringify({
+            horaInicio: horaInicio,
+            fechaCita: fechaCita,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var select = document.getElementById("asignado");
+            select.innerHTML = ""; // Limpiar opciones actuales
+
+            data.empleados.forEach((empleado) => {
+              var option = new Option(empleado.nombre, empleado.id);
+              select.appendChild(option);
+            });
+          });
+      }
+
+      document
+        .getElementById("horaInicio")
+        .addEventListener("change", actualizarDisponibilidad);
+      document
+        .getElementById("fechaCita")
+        .addEventListener("change", actualizarDisponibilidad);
+    });
+  </script>
+
+  {% endblock %}
+</html>
