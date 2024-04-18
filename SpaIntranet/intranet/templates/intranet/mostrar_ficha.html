@@ -18,49 +18,40 @@
             </div>
             <div class="field">
                 <label for="fecha">Fecha de creacion:</label>
-                <input type="date" id="fecha" name="fecha">
+                <input type="date" id="fecha" name="fecha" value="{{ fichaClinica.fecha_ficha|date:'Y-m-d' }}" readonly>
             </div>
         
             <div class="field">
                 <label for="nombre_cliente">Nombre del paciente:</label>
-                <input type="text" id="nombre_cliente" name="nombre_cliente" maxlength="30" placeholder="Nombre">
+                <input type="text" id="nombre_cliente" name="nombre_cliente" maxlength="30" value="{{ fichaClinica.nombre_cliente.nombre_cliente} }}" readonly >
             </div>
         
             <div class="row">
                 <div class="field">
                     <label for="telefono_cliente">Teléfono:</label>
-                    <input type="telefono_cliente" id="telefono_cliente" name="telefono_cliente" maxlength="15" placeholder="Campo forzoso">
+                    <input type="telefono_cliente" id="telefono_cliente" name="telefono_cliente" maxlength="15" value="{{ fichaClinica.nombre_cliente.telefono_cliente }}" readonly>
                 </div>
         
                 <div class="field">
                     <label for="edad">Edad:</label>
-                    <input type="number" id="edad" name="edad" maxlength="2" placeholder="Campo forzoso">
+                    <input type="number" id="edad" name="edad" maxlength="2" value="{{ fichaClinica.edad }}" readonly>
                 </div>
         
                 <div class="field">
-                    <label for="sexo">Sexo:</label>
-                    <select id="sexo" name="sexo">
-                        <option value="fem">Femenino</option>
-                        <option value="masc">Masculino</option>
-                        
-                    </select>
-                    
+                    <label for="sexo">Género:</label >
+                    <input type="text" id="sexo" name="sexo" value="{{ fichaClinica.sexo }}" readonly> 
+                     
                 </div>
                 <div class="field">
                     <label for="estado_civil">Estado Civil:</label>
-                    <select id="estado_civil" name="estado_civil">
-                        <option value="soltero">Soltero</option>
-                        <option value="casado">Casado</option>
-                        <option value="divorciado">Divorciado</option>
-                        <option value="viudo">Viudo</option>
-                    </select>
-                </div>
+                    <input type="text" id="estado_civil" name="estado_civil" value="{{ fichaClinica.estado_civil }}" readonly>
+                    
             </div>
         
             
                 <div class="field">
                     <label for="ocupacion">Ocupación:</label>
-                    <input type="text" id="ocupacion" name="ocupacion" maxlength="70">
+                    <input type="text" id="ocupacion" name="ocupacion" maxlength="70" value="{{ fichaClinica.ocupacion }}" readonly>
                 </div>
         
                 
@@ -68,7 +59,7 @@
         
             <div class="field">
                 <label for="motivo_consulta">Motivo de consulta:</label>
-                <input type="text" id="motivo_consulta" name="motivo_consulta" maxlength="150" placeholder="Campo forzoso">
+                <input type="text" id="motivo_consulta" name="motivo_consulta" maxlength="150" placeholder="Campo forzoso" value="{{ fichaClinica.motivo_consulta }}" readonly>
             </div>
             <br>
             <div class="field">
@@ -79,18 +70,18 @@
             <div class="row">
                 <div class="field">
                     <label for="renales">Renales:</label>
-                    <input type="text" id="renales" name="renales" maxlength="30" placeholder="Campo forzoso">
+                    <input type="text" id="renales" name="renales" maxlength="30" placeholder="Campo forzoso" value="{{ fichaClinica.renales }}" readonly >
                 </div>
                 <div class="field">
                     <label for="cardiovasculares">Cardiovasculares:</label>
-                    <input type="text" id="cardiovasculares" name="cardiovasculares" maxlength="30" placeholder="Campo forzoso">
+                    <input type="text" id="cardiovasculares" name="cardiovasculares" maxlength="30" value="{{ fichaClinica.cardiovasculares }}" readonly >
                 </div>
             </div>
         
             <div class="row">
                 <div class="field">
                     <label for="alergicos">Alérgicos:</label>
-                    <input type="text" id="alergicos" name="alergicos" maxlength="30" placeholder="Campo forzoso">
+                    <input type="text" id="alergicos" name="alergicos" maxlength="30" value="{{ fichaClinica.alergicos }}" readonly>
                 </div>
                 <div class="field">
                     <label for="pulmonares">Pulmonares:</label>
@@ -175,7 +166,7 @@
                     </div>
                     <br>
                     <label for="enfermed_padre">Enfermedades que padece:</label>
-                    <input type="text" id="enfermed_padre" name="enfermed_padre" maxlength="150" placeholder="Campo forzoso">
+                    <input type="text" id="enfermed_padre" name="penfermed_padre" maxlength="150" placeholder="Campo forzoso">
                 </div>
             </div>
             <br>
@@ -234,9 +225,9 @@
              </div>
              
              <div class="row">
-            <button type="submit" class="button1">Guardar</button>
-            
-            <button type="submit" class="button2">Borrar</button>
+            <div class="button-container">
+                <a href="{% url 'home' %}" class="btn btn-primary">Regresar a Home</a>
+              </div>
             </div>
             </div>
             

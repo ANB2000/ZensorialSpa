@@ -1,0 +1,96 @@
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #547E74;
+    border-radius: 10px;
+  }
+  
+  .field {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    
+    width: 98%;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #547E74;
+    border-radius: 4px;
+    resize: vertical; /*hace que el area del text area solo se mueva verticalmente*/
+  }
+  input[type="radio"] {
+    transform: scale(1.5); /* Aumenta el tamaño del botón de radio en un 50% */
+    margin-right: 15px;
+    margin-left: 15px;
+  
+  }
+  .row {
+    display: flex;
+    justify-content:space-between;
+    flex-wrap: wrap;
+  }
+  
+  .field {
+    flex-basis: calc(48% - 5px);
+    
+    
+  }
+  
+  .field:last-child {
+    margin-right: 0;
+  }
+  
+  .radio-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .radio-group label {
+    margin: 0 10px 0 0;
+  }
+  
+  .button1 {
+    padding: 10px 20px;
+    background-color: #547E74;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 40%;
+  }
+  .button2 {
+    padding: 10px 20px;
+    background-color: #dc143c;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 40%;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .header {
+    text-align: center;
+    
+    font-size: 1.2em;
+  }
+  p{
+    font-weight: bold;
+  }

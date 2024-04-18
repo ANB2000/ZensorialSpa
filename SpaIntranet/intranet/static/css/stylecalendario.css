@@ -1,0 +1,74 @@
+#calendar-app {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #547E74;
+    border-radius: 15px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #547E74;
+    border-radius: 15px;
+    background-color:#547E74;
+    color: white;
+}
+
+.day-names {
+    display: flex;
+    background-color: white;
+}
+
+.day-names div {
+    flex: 1;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.calendar-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.calendar-grid div {
+    flex: 1 0 calc(100% / 7);
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.calendar-grid div:hover {
+    background-color: #f4f4f4;
+}
+
+#appointment-form {
+    display: none;
+    flex-direction: column;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 300px;
+    
+}
+button {
+    cursor: pointer;
+    background-color: #547E74;
+    border: 2px solid #547E74;
+    border-radius: 10px;
+    color: white;
+    
+}
+.header {
+    text-align: center;
+    
+    font-size: 1.2em;
+  }

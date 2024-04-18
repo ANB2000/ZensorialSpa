@@ -12,24 +12,35 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
+from django.urls import reverse
 
 
 
 #Funcion para actualizar el status de los empleados
 def actualizar_estado_personal():
-    ahora = timezone.now()
+    ahora = timezone.localtime(timezone.now())
+    print("Hora actual:", ahora.time())  # Depuración
+    empleado = Personal.objects.all()
     for empleado in Personal.objects.all():
-        if empleado.horario_laboral_inicio <= ahora.time() <= empleado.horario_laboral_fin:
-            nuevo_estado = 'disponible'
-        else:
-            nuevo_estado = 'no_disponible'
+        inicio = empleado.horario_laboral_inicio
+        fin = empleado.horario_laboral_fin
+        nuevo_estado = 'disponible' if inicio <= ahora.time() <= fin else 'no_disponible'
+
+        # Depuración
+        print(f"Revisando empleado {empleado.nombre_empleado} ({inicio} - {fin}): {nuevo_estado}")
+
         if empleado.status != nuevo_estado:
-            empleado.status = nuevo_estado
-            empleado.save()
+           empleado.status = nuevo_estado
+           empleado.save()
+           print(f"Estado actualizado para {empleado.nombre_empleado} a {nuevo_estado}")
+        else:
+           print(f"No se requiere actualización para {empleado.nombre_empleado}")
+            
 
 
 #Funcion para la validacion del usuario
 def user_validate(request):
+    ahora = timezone.localtime()  # Asegúrate de usar la hora local correcta
     print("Inicio de la función user_validate")
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -54,10 +65,11 @@ def user_validate(request):
                         return redirect('change_pass')  # Redirigir a la página de cambio de contraseña
                     else:
                         print("Usuario valido, ya cambio su contraseña")
-                        messages.success(request, "Usuario y contraseña correctos.")
+                        messages.success(request, "BIENVENIDO, USUARIO Y CONTRASEÑA CORRECTOS, ")
                         # Llamar a la función para actualizar el estado del personal
                         actualizar_estado_personal()
                         print("SE ACTUALIZO EL STATUS DE LOS EMPLEADOS")
+                        messages.info(request, "SE ACTUALIZO EL STATUS DE LOS EMPLEADOS.")
                         # Reiniciar o establecer el flujo de la sesión
                         request.session['flow'] = 'home'
                         return redirect('home')  # Redirigir a la página de inicio después del login
@@ -73,8 +85,6 @@ def user_validate(request):
 
     messages.error(request, "Información de inicio de sesión inválida.")
     return redirect('login')
-
-
 
 # Vistas del cambio de contraseña
 @login_required
@@ -98,9 +108,10 @@ def login_view(request):
 @login_required
 def home_view(request):
     # Comprobar si el flujo de la sesión está en 'home'
-    if request.session.get('flow') == 'home':
+    if 'home' in request.session.get('flow', []):
         # Avanzar al siguiente paso del flujo
-        request.session['flow'] = ['cita', 'ficha', 'change_pass', 'mostrar_cita']
+        request.session['flow'] = ['cita', 'ficha', 'change_pass', 'lista_citas','buscar_cita', 'busquedaficha'
+                                   ,'buscar_citas','mostrar_cita', 'mostrar_ficha', 'crear_ficha','crear_cita', 'buscarCita_eliminar']
         return render(request,'intranet/home.html')
     else:
         return redirect('login')
@@ -118,19 +129,67 @@ def cita_view(request):
         }
 
         return render(request, 'intranet/cita.html', context)
-
     # Si 'cita' no está en el flujo, redirigir a otra página (por ejemplo, home)
     print("CITA NO ESTA DENTRO DEL FLOW, REDIRECT HOME")
     return redirect('home')
 
 @login_required
-def mostrar_cita_view(request, pk):
+def buscar_cita_view(request ):
+    if 'buscar_cita' in request.session.get('flow', []):
+        return render(request,'intranet/buscar_cita.html')
+    
+@login_required
+def buscarCita_eliminar_view(request ):
+    if 'buscarCita_eliminar' in request.session.get('flow', []):
+        return render(request,'intranet/buscarCita_eliminar.html')
+    
+@login_required
+def buscar_ficha_view(request ):
+    if 'busquedaficha' in request.session.get('flow', []):
+        return render(request,'intranet/busquedaficha.html')
+    
+def mostrarEliminar_cita_view(request ,telefono_cliente):
+    if 'mostrarEliminar_cita' in request.session.get('flow', []):
+        cliente = get_object_or_404(Cliente, telefono_cliente=telefono_cliente)
+        citas = Cita.objects.filter(nombre_cliente=cliente)
+        if citas.exists():
+            messages.info(request, f"AHORA PUEDES ELIMINAR LAS CITAS EXISTENTES PARA EL CLIENTE CON EL NUMERO {telefono_cliente}.")
+            return render(request, 'intranet/mostrarEliminar_cita.html', {'citas': citas, 'cliente': cliente})
+        else:
+            messages.error(request, "No se encontraron citas para el número proporcionado.")
+            return redirect('buscar_cita')
+
+def mostrar_cita_view(request ,telefono_cliente):
     if 'mostrar_cita' in request.session.get('flow', []):
-        cita = get_object_or_404(Cita, pk=pk)
-        messages.success(request, "ESTA ES LA INFORMACION QUE GUARDASTE PARA ESTA CITA")
-        print("ENTRO A LA FUNCION PARA MOSTRAR LA CITA")
-        return render(request, 'intranet/mostrar_cita.html', {'cita': cita})
+        cliente = get_object_or_404(Cliente, telefono_cliente=telefono_cliente)
+        citas = Cita.objects.filter(nombre_cliente=cliente)
+        if citas.exists():
+            messages.info(request, f"ESTAS SON LAS CITAS EXISTENTES PARA EL CLIENTE CON EL NUMERO {telefono_cliente}.")
+            return render(request, 'intranet/mostrar_cita.html', {'citas': citas, 'cliente': cliente})
+        else:
+            messages.error(request, "No se encontraron citas para el número proporcionado.")
+            return redirect('buscar_cita')
+    
+
+def mostrar_ficha_view(request, telefono_cliete):
+    if 'mostrar_ficha' in request.session.get('flow', []):
+        cliente = get_object_or_404(Cliente, telefono_cliente= telefono_cliete)
+        fichasClinicas = FichaClinica.objects.filter(nombre_cliente=cliente)
+        messages.info(request, "ESTA ES LA INFORMACION QUE GUARDASTE PARA ESTA FICHA CLINICA")
+        print("ENTRO A LA FUNCION PARA MOSTRAR LA FICHA  CLINICA")
+        return render(request, 'intranet/mostrar_ficha.html', {'fichasClinicas': fichasClinicas, 'cliente': cliente})
+    else:
+        messages.error(request, "No tienes acceso a esta página.")
+        return redirect('home')
+
+@login_required
+def usuarios_view(request):
+ return render(request,'intranet/usuarios.html')
+
         
+@login_required
+def calendario_view(request):
+ return render(request,'intranet/calendario.html')
 
 @login_required
 def ficha_view(request):
@@ -270,9 +329,9 @@ def crear_cita(request):
                 defaults={'nombre_cliente': nombre_cliente}
             )
             if created:
-                messages.success(request, "Nuevo cliente creado con éxito.")
+                messages.success(request, "NUEVO CLIENTE REGISTRADO,")
             else:
-                messages.success(request, "ESTE CLIENTE YA TIENE ALGUN REGISTRO")
+                messages.info(request, "NO SE GUARDO EL CLIENTE O YA TIENE ALGUN REGISTRO CON NOSOTROS")
                 
             asignado_a = get_object_or_404(Personal, pk=asignado_a_id)
             
@@ -294,12 +353,13 @@ def crear_cita(request):
                 asignado_a=asignado_a
             )
 
-            messages.success(request, "CITA CREADA CON EXITO")
+            messages.success(request, "NUEVA CITA CREADA CON EXITO.")
+            request.session['flow'] = ['home' ,'mostrar_cita']
             print("Mostrando cita")
-            return redirect('mostrar_cita', pk=cita.pk)
+            return redirect('home')
 
         else:
-            return render(request, 'cita.html')
+            return render(request, 'cita')
 
     else:
         messages.error(request, "NO PUEDES SALTARTE LAS VISTAS")
@@ -309,98 +369,221 @@ def crear_cita(request):
 @login_required
 def crear_ficha_clinica(request):
     if request.method == 'POST':
-        # Aquí capturas los datos del formulario
-        fecha_ficha = request.POST.get('fecha')
-        nombre_cliente = request.POST.get('nombrePaciente')
-        telefono = request.POST.get('telefono')
+        fecha_ficha_str = request.POST.get('fechaCita')
+        fecha_ficha = datetime.strptime(fecha_ficha_str, '%Y-%m-%d').date() if fecha_ficha_str else None
+        telefono_cliente= request.POST.get('telefono_cliente')
         edad = request.POST.get('edad')
-        genero = request.POST.get('genero')
-        estado_civil = request.POST.get('estadoCivil')
+        estado_civil = request.POST.get('estado_civil')
         ocupacion = request.POST.get('ocupacion')
-        motivo_consulta = request.POST.get('motivoConsulta')
-        cardiovasculares = request.POST.get('motivoConsulta')
-        pulmonares = request.POST.get('motivoConsulta')
-        digestivos = request.POST.get('motivoConsulta')
-        otros = request.POST.get('motivoConsulta')
-        sexo = request.POST.get('motivoConsulta')
-        renales = request.POST.get('motivoConsulta')
-        alergicos = request.POST.get('motivoConsulta')
-        quirurgicos = request.POST.get('motivoConsulta')
-        respiratorios = request.POST.get('motivoConsulta')
-        alcoholismo = request.POST.get('motivoConsulta')
-        tabaquismo = request.POST.get('motivoConsulta')
-        drogas = request.POST.get('motivoConsulta')
-        otro = request.POST.get('motivoConsulta')
-        madre = request.POST.get('motivoConsulta')
-        enfermed_madre = request.POST.get('motivoConsulta')
-        padre = request.POST.get('motivoConsulta')
-        enfermed_padre = request.POST.get('motivoConsulta')
-        inicio_menstruacion = request.POST.get('motivoConsulta')
-        ciclo_menstruacion = request.POST.get('motivoConsulta')
-        duracion_menstruacion = request.POST.get('motivoConsulta')
-        ultima_regla = request.POST.get('motivoConsulta')
-        anticonceptivos = request.POST.get('motivoConsulta')
-        menopausia = request.POST.get('motivoConsulta')
-        peso = request.POST.get('motivoConsulta')
-        talla = request.POST.get('motivoConsulta')
-        imc = request.POST.get('motivoConsulta')
+        motivo_consulta = request.POST.get('motivo_consulta')
+        cardiovasculares = request.POST.get('cardiovasculares')
+        pulmonares = request.POST.get('pulmonares')
+        digestivos = request.POST.get('digestivos')
+        otros = request.POST.get('otros')
+        sexo = request.POST.get('sexo')
+        renales = request.POST.get('renales')
+        alergicos = request.POST.get('alergicos')
+        quirurgicos = request.POST.get('quirurgicos')
+        respiratorios = request.POST.get('respiratorios')
+        alcoholismo = request.POST.get('alcoholismo')
+        tabaquismo = request.POST.get('tabaquismo')
+        drogas = request.POST.get('drogas')
+        otro = request.POST.get('otro')
+        madre = request.POST.get('madre')
+        enfermed_madre = request.POST.get('enfermed_madre')
+        padre = request.POST.get('padre')
+        enfermed_padre = request.POST.get('enfermed_padre')
+        inicio_menstruacion_srt = request.POST.get('inicio_menstruacion')
+        inicio_menstruacion = int(inicio_menstruacion_srt) if inicio_menstruacion_srt.isdigit() else None
+        ciclo_menstruacion_str = request.POST.get('ciclo_menstruacion')
+        ciclo_menstruacion = int(ciclo_menstruacion_str) if ciclo_menstruacion_str.isdigit() else None
+        duracion_menstruacion_str = request.POST.get('duracion_menstruacion')
+        duracion_menstruacion = int(duracion_menstruacion_str) if duracion_menstruacion_str.isdigit() else None
+        ultima_regla_str = request.POST.get('fechaCita')
+        ultima_regla = datetime.strptime(ultima_regla_str, '%Y-%m-%d').date() if ultima_regla_str else None
+        anticonceptivos = request.POST.get('anticonceptivos')
+        menopausia = request.POST.get('menopausia')
+        peso_srt = request.POST.get('peso')
+        peso = int(peso_srt) if peso_srt.isdigit() else None
+        talla_srt = request.POST.get('talla')
+        talla = int(talla_srt) if talla_srt.isdigit() else None
+        imc_srt = request.POST.get('imc')
+        imc = int(imc_srt) if imc_srt.isdigit() else None
         
 
         # Supongamos que ya tienes un cliente creado, lo buscas o lo creas
         cliente, created = Cliente.objects.get_or_create(
-            nombre=nombrePaciente, 
-            defaults={'telefono': telefono}
+                telefono_cliente=telefono_cliente,
+                defaults={'nombre_cliente': request.POST.get('nombre_cliente')}
         )
-
+        if created:
+                messages.success(request, "NUEVO CLIENTE REGISTRADO,")
+        else:
+                messages.info(request, "NO SE GUARDO EL CLIENTE O YA TIENE ALGUN REGISTRO CON NOSOTROS")
+                
+        
         # Creas la ficha clínica
-        ficha_clinica = FichaClinica.objects.create(
-            nombre_cliente=cliente,
-            fecha_ficha=timezone.now() if not fecha else timezone.datetime.strptime(fecha, '%Y-%m-%d'),
-            edad=edad,
-            ocupacion=ocupacion,
-            motivo_consulta=motivoConsulta[:30],  # Ejemplo de limitación de longitud
-            sexo=genero,
-            estado_civil=estadoCivil
-            # Agrega los demás campos según tu modelo
+        fichaClinica = FichaClinica.objects.create(
+            fecha_ficha = fecha_ficha,
+            nombre_cliente = cliente,
+            edad = edad,
+            estado_civil = estado_civil,
+            ocupacion = ocupacion,
+            motivo_consulta = motivo_consulta,
+            cardiovasculares = cardiovasculares,
+            pulmonares = pulmonares,
+            digestivos = digestivos,
+            otros = otros,
+            sexo = sexo,
+            renales = renales,
+            alergicos = alergicos,
+            quirurgicos = quirurgicos,
+            respiratorios = respiratorios,
+            alcoholismo = alcoholismo,
+            tabaquismo = tabaquismo,
+            drogas = drogas,
+            otro = otro,
+            madre = madre,
+            enfermed_madre = enfermed_madre,
+            padre = padre,
+            enfermed_padre = enfermed_padre,
+            inicio_menstruacion = inicio_menstruacion,
+            ciclo_menstruacion = ciclo_menstruacion,
+            duracion_menstruacion = duracion_menstruacion,
+            ultima_regla = ultima_regla,
+            anticonceptivos = anticonceptivos,
+            menopausia = menopausia,
+            peso = peso,
+            talla = talla,
+            imc = imc
         )
-
-        messages.success(request, "Ficha clínica creada con éxito")
-        return redirect('alguna_url_de_confirmacion')
+        request.session['flow'] = ['home' ,'mostrar_cita']
+        messages.success(request, "FICHA CLINICA CREADA CON EXITO")
+        print("FICHA CLINICA CREADA CON EXITO")
+        print("Mostrando cita")
+        return redirect('home')
+        
     else:
+        messages.error(request, f"Error al crear la ficha clínica")
+        
         # Si es un GET, solo renderizas el formulario
-        return render(request, 'tu_template_de_ficha_clinica.html')
+        return render(request, 'ficha.html')
 
-@login_required    
+
+def alta_empleado(request):
+    if request.method == 'POST':
+        nombre_empleado = request.POST.get('nombre_empleado')
+        status = request.POST.get('status')
+        horario_inicio = request.POST.get('horario_laboral_inicio')
+        horario_fin = request.POST.get('horario_laboral_fin')
+        print(request.POST)
+        
+        # Crear y guardar el nuevo empleado en la base de datos
+        empleado = Personal.objects.create(
+            nombre_empleado=nombre_empleado,
+            status=status,
+            horario_laboral_inicio=horario_inicio,
+            horario_laboral_fin=horario_fin
+        )
+        request.session['flow'] = ['home']
+        messages.success(request, 'EMPLEADO CREADO EXITOSAMENTE.')
+        return redirect(reverse('home'))  # Reemplaza 'home' con el nombre de tu URL de destino después de la creación.
+    else:
+        return render(request, 'intranet/empleadonew.html')  # Asegúrate de usar la plantilla correcta.
+
+
+def eliminar_empleado(request):
+    # Asegúrate de que estás procesando un POST
+    if request.method == 'POST':
+        nombre_empleado = request.POST.get('employeeId')
+        
+        # Intenta obtener el empleado y eliminarlo
+        try:
+            empleado = Personal.objects.get(nombre_empleado=nombre_empleado)
+            empleado.delete()
+            messages.success(request, f'El empleado {nombre_empleado} ha sido eliminado con éxito.')
+        except Personal.DoesNotExist:
+            messages.error(request, 'Empleado no encontrado.')
+        except Exception as e:
+            messages.error(request, f'Error al eliminar al empleado: {e}')
+        
+        # Redirige a la página deseada después de la operación
+        request.session['flow'] = ['home']
+        return redirect('home')
+    else:
+        # Si la solicitud no es POST, envía al usuario de vuelta al formulario
+        return render(request, 'empleadodelete.html')
+
+@login_required
+def actualizar_empleado(request):
+    empleado = None
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if action == 'buscar':
+            nombre_busqueda = request.POST.get('empleadoupdate')
+            empleado = get_object_or_404(Personal, nombre_empleado=nombre_busqueda)
+            messages.info(request, f"MOSTRANDO DATOS PARA: {empleado.nombre_empleado}. PUEDES ACTUALIZAR SU INFORMACION.")
+        
+        elif action == 'actualizar':
+            nombre_empleado = request.POST.get('nombre_empleado')
+            empleado = get_object_or_404(Personal, nombre_empleado=nombre_empleado)
+            empleado.horario_laboral_inicio = request.POST.get('horario_laboral_inicio')
+            empleado.horario_laboral_fin = request.POST.get('horario_laboral_fin')
+            empleado.save()
+            messages.success(request, "INFORMACION DEL EMPLEADO ACTUALIZADA CON EXITO")
+           # Redirige a la página deseada después de la operación
+            request.session['flow'] = ['home']
+            return redirect('home')
+    context = {
+        'empleado': empleado
+    }
+    return render(request, 'intranet/empleadoupdate.html', context)
+
   #Funcion para buscar citas  
-def buscar_citas_por_telefono(request):
+
+
+def buscar_citas(request):
     if request.method == 'POST':
         telefono_cliente = request.POST.get('telefonoCita')
-        cliente = Cliente.objects.filter(telefono=telefono_cliente).first()
+        cliente = Cliente.objects.filter(telefono_cliente=telefono_cliente).first()
 
         if cliente:
-            citas = Cita.objects.filter(cliente=cliente)
-            return render(request, 'lista_citas.html', {'citas': citas, 'cliente': cliente})
+            cita = Cita.objects.filter(nombre_cliente=cliente)
+            request.session['flow'] = ['mostrar_cita']
+            return redirect('mostrar_cita', telefono_cliente=telefono_cliente)
         else:
             messages.error(request, "No se encontraron citas para el número proporcionado.")
-            return redirect('buscar_citas_por_telefono')
+            request.session['flow'] = ['buscar_cita']
+            return redirect('buscar_cita')
 
-    return render(request, 'buscar_citas.html')
-#esto va en el html para buscar cita
-#<form method="post">
- #   {% csrf_token %}
-  #  <label for="telefonoCita">Número de teléfono:</label>
-   # <input type="text" id="telefonoCita" name="telefonoCita">
-    #<button type="submit">Buscar Citas</button>
-#</form>
+    return render(request, 'buscar_cita.html')
 
-#funcion para editar informacion de la cita
-@login_required
-def editar_cita(request, cita_id):
-    cita = Cita.objects.get(id=cita_id)
-
+def buscar_citasEliminar(request): 
+    
     if request.method == 'POST':
-        # Aquí procesas el formulario de edición de la cita
-        # Puedes usar un formulario de Django para facilitar la validación y actualización
-        return redirect('detalle_cita', pk=cita.id)
+        telefono_cliente = request.POST.get('telefonoCita')
+        cliente = Cliente.objects.filter(telefono_cliente=telefono_cliente).first()
 
-    return render(request, 'editar_cita.html', {'cita': cita})
+        if cliente:
+            cita = Cita.objects.filter(nombre_cliente=cliente)
+            request.session['flow'] = ['mostrarEliminar_cita']
+            return redirect('mostrarEliminar_cita', telefono_cliente=telefono_cliente)
+        else:
+            messages.error(request, "No se encontraron citas para el número proporcionado.")
+            request.session['flow'] = ['buscarCita_eliminar','home']
+            return redirect('buscar_cita')
+
+    return render(request, 'buscar_cita.html')
+
+def eliminar_cita(request, id):
+    if request.method == 'POST':
+        cita = get_object_or_404(Cita, pk=id)
+        cita.delete()
+        messages.success(request, "CITA ELIMINADA CORRECTAMENTE.")
+        request.session['flow'] = ['home']
+        return redirect('home')  # Redirige a la página que desees después de eliminar
+    else:
+        messages.error(request, "NO SE PUDO ELIMINAR LA CITA.")
+        return redirect('home')

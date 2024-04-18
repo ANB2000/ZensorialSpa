@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends 'intranet/base.html' %}
 
 {% block content %}
@@ -5,14 +6,16 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/styleempleadonew.css' %}">
 <body>
+    
     <div class="header">
         <h1>Alta empleado</h1>
     </div>
     <div class="form-container">
-        <form>
+        <form class="form-field" action="{% url 'alta_empleado' %}" method="post">
+            {% csrf_token %}
             <div class="form-field">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombreempleadonew" name="nombreempleadonew" required>
+                <label for="nombre_empleado">Nombre:</label>
+                <input type="text" id="nombre_empleado" name="nombre_empleado" required>
             </div>
             <div class="form-field">
                 <label for="status">Status:</label>
@@ -21,9 +24,14 @@
                     <option value="inactivo">Inactivo</option>
                 </select>
             </div>
+            <h3>Horario Laboral</h3>
             <div class="form-field">
-                <label for="horario_laboral">Horario Laboral:</label>
-                <input type="text" id="horario_laboral" name="horario_laboral" required>
+                <label for="horario_laboral_inicio">Hora inicio:</label>
+                <input type="time" id="horario_laboral_inicio" name="horario_laboral_inicio" required>
+            </div>
+            <div class="form-field">
+                <label for="horario_laboral_fin">Horario final:</label>
+                <input type="time" id="horario_laboral_fin" name="horario_laboral_fin" required>
             </div>
             <div class="form-field">
                 <button type="submit">Agregar empleado</button>

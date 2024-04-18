@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% extends 'intranet/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/stylecita.css' %}" />
+
+<h1>Citas para {{ cliente.telefono_cliente }}</h1>
+
+{% for cita in citas %}
+
+    {% include 'mostrar_cita.html' with cita=cita %}
+
+{% endfor %}
+
+{% endblock %}

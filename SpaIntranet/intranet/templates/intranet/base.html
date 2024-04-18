@@ -1,118 +1,116 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap"
-      rel="stylesheet"
-    />
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
     {% load static %}
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Zensorial SPA & Wellness Bar</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <!-- Asegúrate de tener un archivo styles.css en tu carpeta de archivos estáticos -->
-  </head>
-  <body>
+    
+</head>
+<body>
     <nav class="nav">
-      <!-- Este es tu menú desplegable, puedes usar <ul> para la estructura -->
-
-      <div id="menuToggle">
-        <!-- Un checkbox falso usado como click receiver para el menú desplegable -->
-        <input type="checkbox" />
-
-        <!-- Algún tipo de ícono de hamburguesa para menú móvil -->
-        <span></span>
-        <span></span>
-        <span></span>
-
-        <!-- Aquí irían los enlaces del menú -->
-        <ul id="menu">
-          <li>
-            FICHA CLINICA
-            <ul>
-              <a href="{% url 'ficha' %}"><li>NUEVA FICHA CLÍNICA</li></a>
-              <a href="{% url 'ficha' %}"><li>CONSULTAR FICHA CLÍNICA</li></a>
-              <a href="{% url 'ficha' %}"><li>ELIMINAR FICHA CLÍNICA</li></a>
+        <!-- Este es tu menú desplegable, puedes usar <ul> para la estructura -->
+        
+        <div id="menuToggle">
+            <!-- Un checkbox falso usado como click receiver para el menú desplegable -->
+            <input type="checkbox" />
+            
+            <!-- Algún tipo de ícono de hamburguesa para menú móvil -->
+            <span></span>
+            <span></span>
+            <span></span>
+            
+            <!-- Aquí irían los enlaces del menú -->
+            <ul id="menu">
+                <li>
+                    FICHA CLÍNICA
+                    <ul>
+                        <a href="{% url 'ficha' %}"><li>Crear Ficha Clinica</li></a>
+                        <a href="{% url 'busquedaficha' %}"><li>Buscar Ficha Clinica</li></a>
+                        
+                    </ul>
+                  </li>
+                <li>
+                    CITAS
+                    <ul>
+                      <a href="{% url 'cita' %}"><li>Crear cita</li></a>
+                      <a href="{% url 'buscar_cita' %}"><li>Consultar cita</li></a>
+                      <a href="{% url 'buscarCita_eliminar' %}"><li>Eliminar cita</li></a>
+                      <a href="{% url 'calendario' %}"><li>Calendario citas</li></a>
+                    </ul>
+                  </li>
+                
+                <li>EMPLEADOS
+                    <ul>
+                        <a href="{% url 'empleadonew' %}"><li>Nuevo Empleado</li></a>
+                        <a href="{% url 'empleadodelete' %}"><li>Eliminar Empleado</li></a>
+                        <a href="{% url 'empleadoupdate' %}"><li>Modificar Empleado</li></a>
+                    </ul>
+                </li>
+                <a href="{% url 'usuarios' %}"><li>CAMBIAR CONTRASEÑA</li></a>
+                <a href="{% url 'login' %}"><li>CERRAR SESIÓN</li></a>
             </ul>
-          </li>
-
-          <li>
-            EMPLEADOS
-            <ul>
-              <a href="{% url 'empleadonew' %}"><li>NUEVO EMPLEADO</li></a>
-              <a href="{% url 'empleadodelete' %}"
-                ><li>ELIMINAR EMPLEADO</li></a
-              >
-              <a href="{% url 'empleadoupdate' %}"
-                ><li>MODIFICAR EMPLEADO</li></a
-              >
-            </ul>
-          </li>
-          <li>
-            CITAS
-            <ul>
-              <a href="{% url 'cita' %}"><li>CREAR CITA</li></a>
-              <a href="{% url 'cita' %}"><li>CONSULTAR CITA</li></a>
-              <a href="{% url 'cita' %}"><li>ELIMINAR CITA</li></a>
-            </ul>
-          </li>
-          <a href="{% url 'login' %}"><li>CERRAR SESIÓN</li></a>
-        </ul>
-      </div>
-      <div class="titulo">MENÚ</div>
+        </div>
+        <div class="titulo">
+            MENÚ
+        </div>
     </nav>
 
     <div class="content">
-      <!-- Esto es donde tu contenido cambiará según la vista -->
-      {% block content %} {% endblock content %}
+        <!-- Esto es donde tu contenido cambiará según la vista -->
+        {% block content %}
+        {% endblock content %}
     </div>
     <!-- Modal Container -->
     <div class="bootstrap-modal-container">
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="loginModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="loginModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="loginModalLabel">Mensaje</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              {% for message in messages %} {{ message }} {% endfor %}
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="loginModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="loginModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Mensaje</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {% for message in messages %} {{ message }} {% endfor %}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        // Verifica si hay mensajes para mostrar
-        if ($(".modal-body").text().trim() !== "") {
-          // Muestra el modal
-          $("#loginModal").modal("show");
-        }
-      });
-    </script>
-  </body>
+      <link
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        rel="stylesheet"
+      />
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function () {
+          // Verifica si hay mensajes para mostrar
+          if ($(".modal-body").text().trim() !== "") {
+            // Muestra el modal
+            $("#loginModal").modal("show");
+          }
+        });
+      </script>
+</body>
 </html>

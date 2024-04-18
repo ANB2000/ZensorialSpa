@@ -5,22 +5,24 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/styleempleadodelete.css' %}">
 <body>
+    <form method="post" action="{% url 'eliminar_empleado' %}">
+        {% csrf_token %}
     <div class="header">
         <h1>Baja empleado</h1>
     </div>
     <div class="form-container">
         <div class="warning-text">
-            <p>Ingresa el nombre del empleado que vas a dar de baja:</p>
+            <p>Ingresa el nombre del empleado que quieres eliminar</p>
         </div>
         <br>
         <form>
             <div class="form-field">
-                <label for="employeeId">Nombre del Empleado:</label>
+                
                 <input type="text" id="employeeId" name="employeeId" required>
             </div>
             <br>
             <div class="form-field">
-                <input type="submit" value="Dar de Baja">
+                <button type="submit" style="background-color: red; color: white;">Eliminar empleado</button>
             </div>
         </form>
     </div>

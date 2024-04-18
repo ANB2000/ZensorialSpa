@@ -7,36 +7,36 @@ class Cliente(models.Model):
 class FichaClinica(models.Model):
     nombre_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     fecha_ficha = models.DateTimeField(null=True, blank=True)  
-    edad = models.IntegerField(null=False, blank=False)
-    ocupacion = models.CharField(max_length=30, blank=True, null=True)
-    motivo_consulta = models.CharField(max_length=30, null=False, blank=False)
-    cardiovasculares = models.CharField(max_length=20, null=False, blank=False)
-    pulmonares = models.CharField(max_length=20, null=False, blank=False)
-    digestivos = models.CharField(max_length=20, null=False, blank=False)
-    otros = models.CharField(max_length=20, null=False, blank=False)
-    sexo = models.CharField(max_length=2, null=True, blank=True)
+    edad = models.IntegerField(null=False, blank=False) #forzoso
+    ocupacion = models.CharField(max_length=70, blank=True, null=True)
+    motivo_consulta = models.CharField(max_length=150, null=False, blank=False)#forzoso
+    cardiovasculares = models.CharField(max_length=30, null=False, blank=False)#forzoso
+    pulmonares = models.CharField(max_length=30, null=False, blank=False)#forzoso
+    digestivos = models.CharField(max_length=30, null=False, blank=False)#forzoso
+    otros = models.CharField(max_length=30, null=True, blank=True)
+    sexo = models.CharField(max_length=4, null=True, blank=True)
     estado_civil = models.CharField(max_length=10, null=True, blank=True)
-    renales = models.CharField(max_length=20, null=False, blank=False)
-    alergicos = models.CharField(max_length=30, null=False, blank=False)
-    quirurgicos = models.CharField(max_length=20, null=False, blank=False)
-    respiratorios = models.CharField(max_length=20, null=False, blank=False)
-    alcoholismo = models.CharField(max_length=10, null=True, blank=True)
-    tabaquismo = models.CharField(max_length=10, null=True, blank=True)
+    renales = models.CharField(max_length=30, null=False, blank=False)#forzoso
+    alergicos = models.CharField(max_length=30, null=False, blank=False)#forzoso
+    quirurgicos = models.CharField(max_length=30, null=False, blank=False)#forzoso
+    respiratorios = models.CharField(max_length=30, null=False, blank=False)#forzoso
+    alcoholismo = models.CharField(max_length=30, null=True, blank=True)
+    tabaquismo = models.CharField(max_length=30, null=True, blank=True)
     drogas = models.CharField(max_length=2, null=True, blank=True)
-    otro = models.CharField(max_length=10, null=True, blank=True)
+    otro = models.CharField(max_length=30, null=True, blank=True)
     madre = models.CharField(max_length=2, null=True, blank=True)
-    enfermed_madre = models.CharField(max_length=30, null=False, blank=False)
+    enfermed_madre = models.CharField(max_length=150, null=False, blank=False)#forzoso
     padre = models.CharField(max_length=2, null=True, blank=True)
-    enfermed_padre = models.CharField(max_length=30,null=False, blank=False)
+    enfermed_padre = models.CharField(max_length=150,null=False, blank=False)#forzoso
     inicio_menstruacion = models.IntegerField(null=True, blank=True)
     ciclo_menstruacion = models.IntegerField(null=True, blank=True)
     duracion_menstruacion = models.IntegerField(null=True, blank=True)
     ultima_regla = models.DateTimeField(null=True, blank=True)
-    anticonceptivos = models.CharField(max_length=15, null=True, blank=True)
+    anticonceptivos = models.CharField(max_length=20, null=True, blank=True)
     menopausia = models.CharField(max_length=2, null=True, blank=True)
-    peso = models.FloatField(null=False, blank=False) 
-    talla = models.FloatField(null=False, blank=False)  # No se especifica precisión y escala ya que mas adelante sera retirado de SQL
-    imc = models.FloatField(null=False, blank=False) 
+    peso = models.FloatField(null=False, blank=False) #forzoso
+    talla = models.FloatField(null=False, blank=False) #forzoso
+    imc = models.FloatField(null=False, blank=False) #forzoso
 
 class Personal(models.Model):
     nombre_empleado = models.CharField(max_length=35, null=False, blank=False)

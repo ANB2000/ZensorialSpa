@@ -1,52 +1,45 @@
+<!DOCTYPE html>
 {% extends 'intranet/base.html' %}
 
 {% block content %}
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/styleempleadoupdate.css' %}">
-<body>
 
-    <div class="header">
-        <h1>Actualizar empleado</h1>
-    </div>
+<div class="header">
+    <h1>Actualizar empleado</h1>
+</div>
+
+<div class="form-container">
+    <form class="form-field" action="{% url 'actualizar_empleado' %}" method="post">
+        {% csrf_token %}
         <div class="form-container">
             <p>Ingresa el nombre del empleado que vas a modificar:</p>
-            <form>
-                <!-- Nombre del empleado (puede ser oculto si se prefiere) -->
-                <div class="form-field">
-                    <label for="nombreempleadoupdate">Nombre del Empleado:</label>
-                    <input type="text" id="nombreempleadoupdate" name="nombreempleadoupdate" required>
-                    <br>
-                    <div class="form-field">
-                        <input type="submit" value="Buscar">
-                    </div>
-                </div>
-                <br>
-                <br>
-            <div class="headerdiv">
-                <!-- Nombre del empleado -->
-                <div class="form-field">
-                    <label for="employee-name">Nombre:</label>
-                    <input type="text" id="employee-name" name="employeeName" required>
-                </div>
-                <div class="form-field">
-                    <label for="employee-status">status:</label>
-                    <input type="email" id="employee-status" name="employestatus" required>
-                </div>
-                <div class="form-field">
-                    <label for="employee-email">Horario:</label>
-                    <input type="email" id="employee-email" name="employeeEmail" required>
-                </div>
-            </div> 
-
-            <
-             <!-- Botón de envío -->
-             <div class="form-field">
-                <input type="submit" value="Actualizar Información">
-            </div>
-            </form>
+        <form>
+        
+        <div class="form-field">
+            <label for="empleadoupdate">Nombre del Empleado:</label>
+            <input type="text" id="empleadoupdate" name="empleadoupdate" value="{{ empleado.nombre_empleado|default:'' }}" required>
+            <button type="submit" name="action" value="buscar">Buscar</button>
         </div>
-    
-    
-    </body>
+
+        <div class="headerdiv" style="{% if empleado %}display:block{% else %}display:none{% endif %}">
+            <div class="form-field">
+                <label for="nombre_empleado">Nombre:</label>
+                <input type="text" id="nombre_empleado" name="nombre_empleado" value="{{ empleado.nombre_empleado |default:''  }}">
+            </div>
+            <h4>Horario Laboral</h4>
+            <div class="form-field">
+                <label for="horario_laboral_inicio">Hora inicio:</label>
+                <input type="time" id="horario_laboral_inicio" name="horario_laboral_inicio" value="{{ empleado.horario_laboral_inicio|time:'H:i'|default:'' }}">
+            </div>
+            <div class="form-field">
+                <label for="horario_laboral_fin">Horario final:</label>
+                <input type="time" id="horario_laboral_fin" name="horario_laboral_fin" value="{{ empleado.horario_laboral_fin|time:"H:i" |default:'' }}">
+            </div>
+            
+            <button type="submit" name="action" value="actualizar">Actualizar</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

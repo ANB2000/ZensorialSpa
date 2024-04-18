@@ -1,0 +1,32 @@
+{% extends 'Intranet/base.html' %}
+
+{% block content %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de Contraseña</title>
+    <link rel="stylesheet" href="{% static 'css/styleusuarios.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>CAMBIO DE CONTRASEÑA</h1>
+    </div>
+    <div class="container">
+        <div class="user-box" id="user-box">
+            <span>Usuario:</span>
+            <button ><a href="{% url 'change_pass' %}" style="color: white;">Cambiar contraseña</a></button>
+        </div>
+        <div class="user-box" id="admin-box">
+            <span>Administrador:</span>
+            <button ><a href="{% url 'change_pass' %}" style="color: white;">Cambiar contraseña</a></button>
+            
+        </div>
+        
+        
+    </div>
+
+    <script src="{% static 'scripts/script.js' %}"></script>
+</body>
+  
+{% endblock %}

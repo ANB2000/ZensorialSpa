@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'intranet/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="search-container">
+    <h1 style="text-align: center">Buscar citas para eliminar</h1>
+    <form action="{% url 'buscar_citasEliminar' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="telefonoCita" placeholder="Ingrese número telefónico">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+</br>
+</br>
+<div class="logo_central">
+    <img src="{%static 'images/logo.png' %}" alt="ZENSORIAL SPA & WELLNESS BAR logo_central" class="imgcentral">
+</div>
+{% endblock %}

@@ -35,29 +35,33 @@
     
     margin-bottom: 15px;
 }
+.input-group input {
+    
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 100%; /* Ajusta esto según tus necesidades */
+    height: 40px; /* Ajusta esto según tus necesidades */
+}
+
 
 .input-group label {
     display: block;
-   
-    margin-bottom: 5px;
-    
-    
+    margin-bottom: 5px; 
 }
 
-.input-group input,
+
 .input-group textarea {
-    width: 98%;
+    width: 95%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #547E74;
     border-radius: 10px;
-    height: 14px;
-}
-
-.input-group textarea {
-    
+    height: 20px;
     resize: vertical;
 }
+
 
 .footer {
     text-align: center;

@@ -3,11 +3,11 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/stylecita.css' %}" />
-<h1 style="text-align: center">LISTADO DE CITAS QUE PERTENECEN AL CLIENTE </h1>
-<h1 style="text-align: center">BUSCADO CON EL NUMERO TELEFOCNICO:</h1>
-<h1 style="text-align: center">{{ cliente.telefono_cliente }}</h1>
+<h2 style="text-align: center">LISTADO DE CITAS PARA ELIMINAR QUE PERTENECEN</h2>
+<h2 style="text-align: center">AL CLIENTE BUSCADO CON EL NUMERO TELEFOCNICO:</h2>
+<h2 style="text-align: center">{{ cliente.telefono_cliente }}</h2>
 {% for cita in citas %}
-    
+
     <div class="formulario-container">
       <div class="header">
         <div>
@@ -69,17 +69,22 @@
 
       <div class="input-group">
         <label for="observaciones">OBSERVACIONES:</label>
-        <textarea id="observaciones" name="observaciones" style="width: 100%; height: 50px;" readonly>{{ cita.observaciones }}</textarea>
+        <textarea id="observaciones" name="observaciones" style="width: 100%; height: 60px;" readonly>{{ cita.observaciones }}</textarea>
       </div>
 
-      <div class="button-container">
+      <form action="{% url 'eliminar_cita' cita.id %}" method="post">
+        {% csrf_token %}
+        <div class="button-container">
+            <input type="submit" value="Eliminar cita" class="btn btn-danger">
+        </div>
+    </form>
+    <div class="button-container">
         <a href="{% url 'home' %}" class="btn btn-primary">Regresar a Home</a>
-      </div>
-
-      <div class="footer">ZENSORIAL SPA &amp; WELLNESS BAR</div>
     </div>
-    <br/>
-    <br/>
+    <div class="footer">ZENSORIAL SPA &amp; WELLNESS BAR</div>
+</div>
+<br/>
+<br/>
   {% endfor %}
 {% endblock %}
 

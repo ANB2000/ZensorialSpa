@@ -102,7 +102,7 @@ DATE_FORMAT = '%d/%m/%Y'
 
 TIME_FORMAT = '%H:%M'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 

@@ -1,0 +1,41 @@
+{% extends 'Intranet/base.html' %}
+
+{% block content %}
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendario de Citas</title>
+    <link rel="stylesheet" href="{% static 'css/stylecalendario.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>Calendario</h1>
+    </div>
+    <div id="calendar-app">
+        <div class="calendar-header">
+            <button id="prev-month">&lt;</button>
+            <h2 id="month-year"></h2>
+            <button id="next-month">&gt;</button>
+        </div>
+        <div class="day-names">
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+            <div>Dom</div>
+        </div>
+        <div id="calendar-days" class="calendar-grid"></div>
+    </div>
+    <div id="appointment-form">
+        <h3>Agendar Cita</h3>
+        <p id="selected-date"></p>
+        <label for="time">Hora:</label>
+        <input type="time" id="time">
+        <button id="save-appointment">Guardar Cita</button>
+    </div>
+    <script src="{% static 'scripts/scriptcalendario.js' %}"></script>
+</body>
+{% endblock %}
