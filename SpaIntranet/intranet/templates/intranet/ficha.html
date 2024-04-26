@@ -1,15 +1,10 @@
 <!DOCTYPE html>
-<head></head>
-<body>
-  <body>{% extends 'intranet/base.html' %}
-
+    {% extends 'intranet/base.html' %}
     {% block content %}
-    
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/styleficha.css' %}">
-    
-    
+
     
         <form class="formulario" action="{% url 'crear_ficha_clinica' %}" method="post">
             {% csrf_token %}
@@ -17,8 +12,8 @@
                 <h1>FICHA CLÍNICA</h1>
             </div>
             <div class="field">
-                <label for="fecha">Fecha de creacion:</label>
-                <input type="date" id="fecha" name="fecha">
+                <label for="fecha_ficha">Fecha de creacion:</label>
+                <input type="date" id="fecha_ficha" name="fecha_ficha">
             </div>
         
             <div class="field">
@@ -241,9 +236,6 @@
             </div>
             
         </form>
-        
-        
-    
-    
       
-    {% endblock %}</body>
+    {% endblock %}
+

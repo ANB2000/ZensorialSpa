@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'intranet/base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="search-container">
+    <h1>Buscar fichas clinicas registradas</h1>
+    <form action="{% url 'buscar_fichas' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="telefonoFicha" placeholder="Ingrese número telefónico">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+</br>
+</br>
+<div class="logo_central">
+    <img src="{%static 'images/logo.png' %}" alt="ZENSORIAL SPA & WELLNESS BAR logo_central" class="imgcentral">
+</div>
+{% endblock %}

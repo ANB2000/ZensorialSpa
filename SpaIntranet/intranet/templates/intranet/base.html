@@ -31,7 +31,9 @@
                     FICHA CLÍNICA
                     <ul>
                         <a href="{% url 'ficha' %}"><li>Crear Ficha Clinica</li></a>
-                        <a href="{% url 'busquedaficha' %}"><li>Buscar Ficha Clinica</li></a>
+                        <a href="{% url 'buscarFicha' %}"><li>Buscar Ficha Clinica</li></a>
+                        <a href="{% url 'buscarFicha' %}"><li>Editar Ficha Clinica</li></a>
+                        <a href="{% url 'buscarFichaEliminar' %}"><li>Eliminar Ficha Clinica</li></a>
                         
                     </ul>
                   </li>
@@ -40,6 +42,7 @@
                     <ul>
                       <a href="{% url 'cita' %}"><li>Crear cita</li></a>
                       <a href="{% url 'buscar_cita' %}"><li>Consultar cita</li></a>
+                      <a href="{% url 'buscar_cita' %}"><li>Editar cita</li></a>
                       <a href="{% url 'buscarCita_eliminar' %}"><li>Eliminar cita</li></a>
                       <a href="{% url 'calendario' %}"><li>Calendario citas</li></a>
                     </ul>

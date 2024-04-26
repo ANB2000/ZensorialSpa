@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash, authenticate, login
 from .models import Cliente, Personal, Cita, FichaClinica
-from django.utils.dateparse import parse_date, parse_time
+from django.utils.dateparse import parse_time
 from django.utils import timezone
 from django.db.models import Q
 import json
@@ -35,8 +35,7 @@ def actualizar_estado_personal():
            print(f"Estado actualizado para {empleado.nombre_empleado} a {nuevo_estado}")
         else:
            print(f"No se requiere actualización para {empleado.nombre_empleado}")
-            
-
+        
 
 #Funcion para la validacion del usuario
 def user_validate(request):
@@ -110,8 +109,9 @@ def home_view(request):
     # Comprobar si el flujo de la sesión está en 'home'
     if 'home' in request.session.get('flow', []):
         # Avanzar al siguiente paso del flujo
-        request.session['flow'] = ['cita', 'ficha', 'change_pass', 'lista_citas','buscar_cita', 'busquedaficha'
-                                   ,'buscar_citas','mostrar_cita', 'mostrar_ficha', 'crear_ficha','crear_cita', 'buscarCita_eliminar']
+        request.session['flow'] = ['cita', 'ficha', 'change_pass', 'lista_citas','buscar_cita', 'buscarFicha',
+                                   'buscar_citas','mostrar_cita', 'mostrar_ficha', 'crear_ficha','crear_cita', 'buscarCita_eliminar',
+                                   'buscarFichaEliminar','mostrarFichaEliminar']
         return render(request,'intranet/home.html')
     else:
         return redirect('login')
@@ -142,11 +142,17 @@ def buscar_cita_view(request ):
 def buscarCita_eliminar_view(request ):
     if 'buscarCita_eliminar' in request.session.get('flow', []):
         return render(request,'intranet/buscarCita_eliminar.html')
-    
+
+@login_required
+def buscarFichaEliminar_view(request ):
+    if 'buscarFichaEliminar' in request.session.get('flow', []):
+        request.session['flow'] = ['buscar_cita','home','ficha','buscarFichaEliminar','mostrarEliminar_cita']
+        return render(request,'intranet/buscarFichaEliminar.html')
+
 @login_required
 def buscar_ficha_view(request ):
-    if 'busquedaficha' in request.session.get('flow', []):
-        return render(request,'intranet/busquedaficha.html')
+    if 'buscarFicha' in request.session.get('flow', []):
+        return render(request,'intranet/buscarFicha.html')
     
 def mostrarEliminar_cita_view(request ,telefono_cliente):
     if 'mostrarEliminar_cita' in request.session.get('flow', []):
@@ -171,15 +177,32 @@ def mostrar_cita_view(request ,telefono_cliente):
             return redirect('buscar_cita')
     
 
-def mostrar_ficha_view(request, telefono_cliete):
+def mostrar_ficha_view(request, telefono_cliente):
     if 'mostrar_ficha' in request.session.get('flow', []):
-        cliente = get_object_or_404(Cliente, telefono_cliente= telefono_cliete)
-        fichasClinicas = FichaClinica.objects.filter(nombre_cliente=cliente)
+        cliente = get_object_or_404(Cliente, telefono_cliente= telefono_cliente)
+        fichas = FichaClinica.objects.filter(nombre_cliente=cliente)
         messages.info(request, "ESTA ES LA INFORMACION QUE GUARDASTE PARA ESTA FICHA CLINICA")
         print("ENTRO A LA FUNCION PARA MOSTRAR LA FICHA  CLINICA")
-        return render(request, 'intranet/mostrar_ficha.html', {'fichasClinicas': fichasClinicas, 'cliente': cliente})
+        print("Fichas encontradas:", fichas.count())
+        request.session['flow'] = ['buscar_cita','home','ficha']
+        return render(request, 'intranet/mostrar_ficha.html', {'fichas': fichas, 'cliente': cliente})
     else:
         messages.error(request, "No tienes acceso a esta página.")
+        return redirect('home')
+
+def mostrarFichaEliminar_view(request ,telefono_cliente):
+    if 'mostrarFichaEliminar' in request.session.get('flow', []):
+        cliente = get_object_or_404(Cliente, telefono_cliente=telefono_cliente)
+        fichas = FichaClinica.objects.filter(nombre_cliente=cliente)
+        if fichas.exists():
+            messages.info(request, f"AHORA PUEDES ELIMINAR LAS FICHAS CLINICAS EXISTENTES PARA EL CLIENTE CON EL NUMERO {telefono_cliente}.")
+            request.session['flow'] = ['buscar_cita','home','ficha']
+            return render(request, 'intranet/mostrarFichaEliminar.html', {'fichas': fichas, 'cliente': cliente})
+        else:
+            messages.error(request, "No se encontraron fichas para el número proporcionado.")
+            return redirect('buscarFichaEliminar')
+    else:
+        messages.error(request, "NO TIENES ACCESO A ESTA PAGINA.")
         return redirect('home')
 
 @login_required
@@ -245,12 +268,6 @@ def cambiar_contrasena(request):
     else: 
         return redirect('login')
 
-@login_required
-def detalle_cita(request, pk):
-    cita = get_object_or_404(Cita, pk=pk)
-    print("ENTRO A LA FUNCION PARA DIRECCIONAR A MOSTRAR_CITA")
-    return render(request, 'intranet/mostrar_cita.html', {'cita': cita})
-    
 
 #FUNCION PARA VERIFICAR LA DISPONIBILIDAD DE LOS EMPLEADOS
 @csrf_exempt
@@ -369,7 +386,7 @@ def crear_cita(request):
 @login_required
 def crear_ficha_clinica(request):
     if request.method == 'POST':
-        fecha_ficha_str = request.POST.get('fechaCita')
+        fecha_ficha_str = request.POST.get('fecha_ficha')
         fecha_ficha = datetime.strptime(fecha_ficha_str, '%Y-%m-%d').date() if fecha_ficha_str else None
         telefono_cliente= request.POST.get('telefono_cliente')
         edad = request.POST.get('edad')
@@ -573,15 +590,60 @@ def buscar_citasEliminar(request):
         else:
             messages.error(request, "No se encontraron citas para el número proporcionado.")
             request.session['flow'] = ['buscarCita_eliminar','home']
-            return redirect('buscar_cita')
+            return redirect('buscarCita_eliminar')
 
-    return render(request, 'buscar_cita.html')
+    return render(request, 'buscarCita_eliminar.html')
 
 def eliminar_cita(request, id):
     if request.method == 'POST':
         cita = get_object_or_404(Cita, pk=id)
         cita.delete()
         messages.success(request, "CITA ELIMINADA CORRECTAMENTE.")
+        request.session['flow'] = ['home']
+        return redirect('home')  # Redirige a la página que desees después de eliminar
+    else:
+        messages.error(request, "NO SE PUDO ELIMINAR LA CITA.")
+        return redirect('home')
+    
+    
+def buscar_fichas(request):
+    if request.method == 'POST':
+        telefono_cliente = request.POST.get('telefonoFicha')
+        cliente = Cliente.objects.filter(telefono_cliente=telefono_cliente).first()
+
+        if cliente:
+            ficha = FichaClinica.objects.filter(nombre_cliente=cliente)
+            request.session['flow'] = ['mostrar_ficha']
+            return redirect('mostrar_ficha', telefono_cliente=telefono_cliente)
+        else:
+            messages.error(request, "No se encontraron fichas para el número proporcionado.")
+            request.session['flow'] = ['buscarFicha', 'home']
+            return redirect('buscarFicha')
+
+    return render(request, 'buscarFicha.html')
+
+def buscarFichasEliminar(request): 
+    
+    if request.method == 'POST':
+        telefono_cliente = request.POST.get('telefonoFicha')
+        cliente = Cliente.objects.filter(telefono_cliente=telefono_cliente).first()
+
+        if cliente:
+            ficha = FichaClinica.objects.filter(nombre_cliente=cliente)
+            request.session['flow'] = ['mostrarFichaEliminar']
+            return redirect('mostrarFichaEliminar', telefono_cliente=telefono_cliente)
+        else:
+            messages.error(request, "No se encontraron fichas para el número proporcionado.")
+            request.session['flow'] = ['buscarFichaElimina', 'home']
+            return redirect('buscarFichaEliminar')
+    request.session['flow'] = ['buscarFichaEliminar']
+    return render(request, 'buscarFichaEliminar.html')
+
+def eliminarFicha(request, id):
+    if request.method == 'POST':
+        ficha = get_object_or_404(FichaClinica, pk=id)
+        ficha.delete()
+        messages.success(request, "FICHA CLINICA ELIMINADA CORRECTAMENTE.")
         request.session['flow'] = ['home']
         return redirect('home')  # Redirige a la página que desees después de eliminar
     else:

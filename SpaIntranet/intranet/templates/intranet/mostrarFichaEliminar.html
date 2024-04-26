@@ -1,7 +1,8 @@
 <!DOCTYPE html>
     {% extends 'intranet/base.html' %} 
-    {% block content %}
     {% load static %} 
+    {% block content %}
+    
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/styleficha.css' %}">
     <h2 style="text-align: center">LISTADO DE FICHAS CLÍNICAS DEL CLIENTE</h2>
@@ -10,7 +11,7 @@
 
         {% for ficha in fichas %}
 
-            <form class="formulario" >
+            <div class="formulario" >
                 <div class="header">
                     <h1>FICHA CLÍNICA</h1>
                     </div>
@@ -384,15 +385,22 @@
                             </div>
                             </div>
 
-                            <div class="row">
+                            <form action="{% url 'eliminarFicha' ficha.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="button-container">
+                                    <input type="submit" value="Eliminar Ficha" class="btn btn-danger">
+                                </div>
+                            </form>
+
                             <div class="button-container">
-                                <a href="{% url 'home' %}" class="btn btn-primary">Regresar a Home</a>
+                                <a href="{% url 'home' %}" class="btn btn-secondary">Regresar</a>
                             </div>
-                            </div>
-                        </div>
+                            
                     </div>
+                    <div class="footer">ZENSORIAL SPA &amp; WELLNESS BAR</div>
                 </div>
-            </form>
+                
+            </div>
             <br />
             <br />
         {% endfor %} 
